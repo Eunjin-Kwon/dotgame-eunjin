@@ -80,3 +80,19 @@ test('blur clears held keys, so no move continues after focus is lost', () => {
   listeners.blur();
   assert.deepEqual(runFrame(2300), { x: 3, y: 10 }, 'no held move after blur');
 });
+
+// GAME_DESIGN.md 2장 '잠금 중에 누른 키': 잠금 중에 누른 키를 계속 누르고 있으면 잠금이 풀리는 즈시 그 방향으로 이동한다.
+// (3,10) -> right -> (4,10); up pressed during the 150 ms lock; at unlock (4,10) -> up -> (4,9).
+// Row 9 is '#.##......##..##', so (4,9) is floor.
+test('a key pressed during the lock moves at unlock if still held; releasing it stops the move', () => {
+  now = 3000;
+  listeners.keydown({ key: 'ArrowRight', repeat: false, preventDefault() {} });
+  assert.deepEqual(runFrame(3000), { x: 4, y: 10 }, 'right moves at once');
+  now = 3050;
+  listeners.keydown({ key: 'ArrowUp', repeat: false, preventDefault() {} });
+  assert.deepEqual(runFrame(3050), { x: 4, y: 10 }, 'up pressed during the lock does not move yet');
+  assert.deepEqual(runFrame(3150), { x: 4, y: 9 }, 'at unlock the held up key moves');
+  listeners.keyup({ key: 'ArrowUp' });
+  listeners.keyup({ key: 'ArrowRight' });
+  assert.deepEqual(runFrame(3400), { x: 4, y: 9 }, 'nothing held: no further move');
+});

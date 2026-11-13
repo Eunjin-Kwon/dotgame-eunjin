@@ -1,19 +1,13 @@
 {
   "skill": "ultragoal",
-  "phase": "blocked",
+  "phase": "active",
   "active": true,
-  "activated_at": "2026-11-13T07:20:08.202Z",
-  "updated_at": "2026-11-13T07:20:08.202Z",
+  "activated_at": "2026-11-13T08:49:06.685Z",
+  "updated_at": "2026-11-13T08:49:06.685Z",
   "session_id": "01a1d29b-ee05-75c2-b1fa-f75a1af552b7",
   "hud": {
     "version": 1,
     "chips": [
-      {
-        "label": "blocked",
-        "value": "1",
-        "priority": 5,
-        "severity": "blocked"
-      },
       {
         "label": "goals",
         "value": "0/1",
@@ -21,12 +15,12 @@
       },
       {
         "label": "current",
-        "value": "blocked",
+        "value": "G001:# R1 계획 개정 5 (최종) — 반딧불이 한 칸 이동 (revision, stage_n 5)",
         "priority": 20
       },
       {
         "label": "status",
-        "value": "blocked",
+        "value": "active",
         "priority": 30
       },
       {
@@ -35,7 +29,7 @@
         "priority": 35
       }
     ],
-    "updated_at": "2026-11-13T07:20:08.201Z"
+    "updated_at": "2026-11-13T08:49:06.684Z"
   },
   "receipt": {
     "version": 1,
@@ -44,15 +38,15 @@
     "command": "gjc ultragoal (reconcile)",
     "state_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/skill-active-state.json",
     "storage_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/ultragoal-state.json",
-    "mutated_at": "2026-11-13T07:20:08.195Z",
-    "fresh_until": "2026-11-13T07:50:08.195Z",
+    "mutated_at": "2026-11-13T08:49:06.679Z",
+    "fresh_until": "2026-11-13T09:19:06.679Z",
     "status": "fresh",
-    "mutation_id": "ultragoal:reconcile:2026-11-13T07:20:08.195Z",
+    "mutation_id": "ultragoal:reconcile:2026-11-13T08:49:06.679Z",
     "verb": "reconcile",
     "forced": true,
-    "from_phase": "blocked",
-    "to_phase": "blocked"
+    "from_phase": "active",
+    "to_phase": "active"
   },
-  "source_state_revision": 8,
-  "state_revision": 7
+  "source_state_revision": 10,
+  "state_revision": 9
 }
