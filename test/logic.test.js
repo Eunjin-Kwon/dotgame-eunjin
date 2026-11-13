@@ -2,7 +2,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { requestMove, MOVE_LOCK_MS } from '../src/logic.js';
+import {
+  requestMove,
+  MOVE_LOCK_MS,
+  pressDirection,
+  releaseDirection,
+  activeDirection,
+} from '../src/logic.js';
 
 const GRID_WIDTH = 16; // 2장: 512 px / 32 px
 const GRID_HEIGHT = 12; // 2장: 384 px / 32 px
@@ -78,6 +84,31 @@ test('V-5: a move locks input for 150 ms; the unlock instant allows exactly one 
 
   const atUnlock = requestMove(moved, 'up', 1000 + LOCK_MS, GRID);
   assert.equal(atUnlock.y, moved.y - 1, 'one cell at unlock instant');
+});
+
+// 2장 동시 입력: 가장 나중에 누른 키의 방향만 인정한다
+test('simultaneous keys: the last pressed held key is the active direction', () => {
+  let held = [];
+  held = pressDirection(held, 'up');
+  held = pressDirection(held, 'right');
+  assert.equal(activeDirection(held), 'right');
+  held = releaseDirection(held, 'right');
+  assert.equal(activeDirection(held), 'up', 'releasing the last key falls back to the earlier held key');
+  held = releaseDirection(held, 'up');
+  assert.equal(activeDirection(held), undefined);
+});
+
+test('pressing an already held direction makes it the last one and does not duplicate it', () => {
+  let held = pressDirection([], 'left');
+  held = pressDirection(held, 'down');
+  held = pressDirection(held, 'left');
+  assert.deepEqual(held, ['down', 'left']);
+});
+
+test('an invalid direction changes neither the held list nor the position', () => {
+  const held = pressDirection([], 'up');
+  assert.equal(pressDirection(held, 'diagonal'), held);
+  assert.equal(pressDirection(held, 'ArrowUp'), held);
 });
 
 // V-6: logic.js는 canvas를 모른다 (AGENTS.md)

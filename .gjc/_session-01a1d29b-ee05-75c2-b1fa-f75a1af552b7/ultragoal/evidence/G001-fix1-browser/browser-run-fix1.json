@@ -1,0 +1,24 @@
+{
+  "executedBy": "Claude planning session (built-in browser pane, not gjc), 2026-11-13",
+  "target": "http://127.0.0.1:8765/index.html (python3 -m http.server, working tree after F1/F4/F5 fixes, before fix-1 commit)",
+  "method": "KeyboardEvent dispatched to window with controlled timing; firefly position read from canvas pixels (#FFE66D)",
+  "consoleErrors": 0,
+  "consoleNote": "only a Canvas2D willReadFrequently warning caused by the test's own getImageData calls",
+  "allOk": true,
+  "checks": [
+    {"check": "V-7 canvas size", "expected": [512, 384], "got": [512, 384]},
+    {"check": "document.title from strings.js", "got": "반딧불이 이슬 모으기"},
+    {"check": "body background = palette 0 #1E2B24", "got": "rgb(30, 43, 36)"},
+    {"check": "V-8 start cell P", "expected": [2, 10], "got": [2, 10]},
+    {"check": "V-9 short tap right moves one tile", "expected": [3, 10], "got": [3, 10]},
+    {"check": "V-9 up into wall stays", "got": [3, 10]},
+    {"check": "V-9 down into edge wall stays", "got": [3, 10]},
+    {"check": "V-9 left edge wall stays", "got": [1, 10]},
+    {"check": "3 taps within 100ms move only one tile (lock)", "expected": [2, 10], "got": [2, 10]},
+    {"check": "V-9 hold right 460ms moves 4 tiles at ~150ms steps", "got": [6, 10]},
+    {"check": "V-11 hold right then add up: moves up only", "before": [6, 10], "during": [7, 8]},
+    {"check": "V-11 release up: right resumes", "got": [10, 8]},
+    {"check": "release all: stops", "got": [10, 8]}
+  ],
+  "notLimitedTo": "does not cover double-click file:// opening; ES modules are blocked there"
+}

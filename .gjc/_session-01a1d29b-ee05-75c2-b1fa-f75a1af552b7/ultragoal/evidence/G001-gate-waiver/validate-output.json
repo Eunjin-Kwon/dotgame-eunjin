@@ -1,0 +1,45 @@
+{
+  "valid": false,
+  "errors": [
+    {
+      "path": "iteration.reviewCohort.sourceHash",
+      "code": "source_hash_mismatch",
+      "message": "iteration.reviewCohort.sourceHash must equal the runtime-computed digest of the authoritative current source basis"
+    },
+    {
+      "path": "architectReview",
+      "code": "architect_not_clear",
+      "message": "checkpoint --status complete requires architect review approval: architectReview architecture/product/code must be CLEAR and recommendation must be APPROVE"
+    },
+    {
+      "path": "architectReview.blockers",
+      "code": "non_empty_blockers",
+      "message": "qualityGate architectReview.blockers must be an empty blockers array"
+    },
+    {
+      "path": "executorQa",
+      "code": "executor_qa_not_passed",
+      "message": "qualityGate executorQa status, e2eStatus, and redTeamStatus must be passed"
+    },
+    {
+      "path": "executorQa.e2eCommands",
+      "code": "missing_command_array",
+      "message": "qualityGate executorQa e2eCommands and redTeamCommands must be non-empty string arrays"
+    },
+    {
+      "path": "executorQa.blockers",
+      "code": "non_empty_blockers",
+      "message": "qualityGate executorQa.blockers must be an empty blockers array"
+    },
+    {
+      "path": "executorQa",
+      "code": "executor_qa_evidence_invalid",
+      "message": "qualityGate executorQa.artifactRefs must be a non-empty object array"
+    },
+    {
+      "path": "iteration.reviewCohort",
+      "code": "review_cohort_invalid",
+      "message": "iteration.reviewCohort.lanes.cleaner is required"
+    }
+  ]
+}

@@ -3,15 +3,15 @@
   "active": true,
   "skill": "ultragoal",
   "phase": "blocked",
-  "updated_at": "2026-11-13T06:51:31.149Z",
+  "updated_at": "2026-11-13T07:20:08.202Z",
   "session_id": "01a1d29b-ee05-75c2-b1fa-f75a1af552b7",
   "active_skills": [
     {
       "skill": "ultragoal",
       "phase": "blocked",
       "active": true,
-      "activated_at": "2026-11-13T06:51:31.149Z",
-      "updated_at": "2026-11-13T06:51:31.149Z",
+      "activated_at": "2026-11-13T07:20:08.202Z",
+      "updated_at": "2026-11-13T07:20:08.202Z",
       "session_id": "01a1d29b-ee05-75c2-b1fa-f75a1af552b7",
       "hud": {
         "version": 1,
@@ -39,11 +39,11 @@
           },
           {
             "label": "ledger",
-            "value": "critic_verdict:G001",
+            "value": "goal_checkpointed:G001",
             "priority": 35
           }
         ],
-        "updated_at": "2026-11-13T06:51:31.148Z"
+        "updated_at": "2026-11-13T07:20:08.201Z"
       },
       "receipt": {
         "version": 1,
@@ -52,20 +52,20 @@
         "command": "gjc ultragoal (reconcile)",
         "state_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/skill-active-state.json",
         "storage_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/ultragoal-state.json",
-        "mutated_at": "2026-11-13T06:51:31.143Z",
-        "fresh_until": "2026-11-13T07:21:31.143Z",
+        "mutated_at": "2026-11-13T07:20:08.195Z",
+        "fresh_until": "2026-11-13T07:50:08.195Z",
         "status": "fresh",
-        "mutation_id": "ultragoal:reconcile:2026-11-13T06:51:31.143Z",
+        "mutation_id": "ultragoal:reconcile:2026-11-13T07:20:08.195Z",
         "verb": "reconcile",
         "forced": true,
         "from_phase": "blocked",
         "to_phase": "blocked"
       },
-      "source_state_revision": 7,
-      "state_revision": 6
+      "source_state_revision": 8,
+      "state_revision": 7
     }
   ],
   "active_subskills": [],
-  "source_state_revision": 55,
-  "state_revision": 55
+  "source_state_revision": 59,
+  "state_revision": 59
 }

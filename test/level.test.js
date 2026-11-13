@@ -6,6 +6,16 @@ import { PALETTE, FIREFLY_SPRITE, SPRITE_SCALE } from '../src/sprites.js';
 
 const level = parseLevel(LEVEL_1_ROWS);
 
+// 5장 문자 규칙: #, ., P 외의 문자는 맵 오류다
+test('a character outside # . P is rejected, not treated as floor', () => {
+  assert.throws(() => parseLevel(['###', '#x#', '#P#']), /unknown level char 'x' at 1,1/);
+  assert.throws(() => parseLevel(['###', '# #', '#P#']), /unknown level char ' '/);
+});
+
+test('an empty level is rejected', () => {
+  assert.throws(() => parseLevel([]), /empty level/);
+});
+
 test('level 1 is 16 x 12 tiles (5장, 2장 화면 512x384 / 32 px)', () => {
   assert.equal(level.width, 16);
   assert.equal(level.height, 12);
