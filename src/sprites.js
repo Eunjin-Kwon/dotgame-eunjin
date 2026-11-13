@@ -13,7 +13,8 @@ export const PALETTE = [
   '#C9B7FF', // 7 spider legs and shadow (R2)
 ];
 
-export const SPRITE_SCALE = 4; // 8 sprite px x 4 = 32 px = one tile (GAME_DESIGN.md 2장)
+export const TILE_PX = 32; // GAME_DESIGN.md 2장: 타일 32 px
+export const SPRITE_SCALE = TILE_PX / 8; // 8 sprite px x 4 = one tile
 
 export const FIREFLY_SPRITE = [
   '........',

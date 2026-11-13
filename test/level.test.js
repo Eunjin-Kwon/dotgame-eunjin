@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { LEVEL_1_ROWS, parseLevel } from '../src/levels.js';
-import { PALETTE, FIREFLY_SPRITE, SPRITE_SCALE } from '../src/sprites.js';
+import { PALETTE, FIREFLY_SPRITE, SPRITE_SCALE, TILE_PX } from '../src/sprites.js';
 
 const level = parseLevel(LEVEL_1_ROWS);
 
@@ -63,7 +63,8 @@ test('palette is the 8 hex values of 6장 in order', () => {
 test('firefly sprite is 8 px square, scaled to one 32 px tile (2장, 4장)', () => {
   assert.equal(FIREFLY_SPRITE.length, 8);
   for (const row of FIREFLY_SPRITE) assert.equal(row.length, 8);
-  assert.equal(8 * SPRITE_SCALE, 32);
+  assert.equal(TILE_PX, 32);
+  assert.equal(FIREFLY_SPRITE.length * SPRITE_SCALE, TILE_PX);
 });
 
 test('firefly sprite uses only R1 palette indices 2-4 (6장 반딧불이 색)', () => {

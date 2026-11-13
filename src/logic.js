@@ -10,7 +10,7 @@ const DIRECTIONS = {
   right: { dx: 1, dy: 0 },
 };
 
-export function isDirection(dir) {
+function isDirection(dir) {
   return Object.prototype.hasOwnProperty.call(DIRECTIONS, dir);
 }
 

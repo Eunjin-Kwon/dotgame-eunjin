@@ -50,7 +50,7 @@ test('V-2: a direction outside up/down/left/right leaves coordinates unchanged',
   }
 });
 
-// V-3: 화면 밖이면 제자리, 막힌 입력은 lockedUntil 불변 (§1-5)
+// V-3: 화면 밖이면 제자리, 막힌 입력은 lockedUntil 불변 (GAME_DESIGN 2장 '벽과 화면 밖' 행)
 test('V-3: moving off the 16x12 grid keeps position and lockedUntil', () => {
   const edges = [
     [{ x: 0, y: 3, lockedUntil: 0 }, 'left'],
@@ -64,7 +64,7 @@ test('V-3: moving off the 16x12 grid keeps position and lockedUntil', () => {
   }
 });
 
-// V-4: 벽이면 제자리, 막힌 입력 직후 유효 입력은 잠금 없이 이동 (§1-5)
+// V-4: 벽이면 제자리, 막힌 입력 직후 유효 입력은 잠금 없이 이동 (GAME_DESIGN 2장 '막힌 입력' 행)
 test('V-4: moving into a blocked cell keeps state, and a valid input right after is not locked', () => {
   const blockedAttempt = requestMove(START, 'right', 1000, GRID);
   assert.deepEqual(blockedAttempt, START);

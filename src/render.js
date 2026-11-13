@@ -1,7 +1,5 @@
 // Drawing only. Reads level rows, palette, and sprites; never changes game state.
-import { PALETTE, FIREFLY_SPRITE, SPRITE_SCALE } from './sprites.js';
-
-const TILE_PX = 32; // GAME_DESIGN.md 2장
+import { PALETTE, FIREFLY_SPRITE, SPRITE_SCALE, TILE_PX } from './sprites.js';
 
 export function drawLevel(ctx, level) {
   for (let y = 0; y < level.height; y++) {
