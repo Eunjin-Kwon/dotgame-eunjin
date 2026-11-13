@@ -1,0 +1,142 @@
+{
+  "architectReview": {
+    "architectureStatus": "CLEAR",
+    "productStatus": "WATCH",
+    "codeStatus": "WATCH",
+    "recommendation": "COMMENT",
+    "evidence": "architect (bundled, read-only) on sourceHash sha256:f5e7d9344c6164a5e1c33344964b28a161bd93968af7abbb93f6cf9c4982db61 (HEAD e32e281). Architecture CLEAR (logic.js pure, no DOM tokens, no package.json). Product WATCH, code WATCH, recommendation COMMENT. Open findings: R-1 MEDIUM release-fallback test in test/redteam.test.js is vacuous (position unchanged whether fallback exists); R-3 MEDIUM level 1 pinned only by counts and border, not verbatim against 5장; R-4 MEDIUM press during 150 ms lock stays held and moves at unlock, not pinned by design text or test; R-5 MEDIUM main.js keydown/keyup/blur/frame wiring is untested. A-1 LOW V-6 test is substring-based. Agent output: agent://9-Fix3Architect.",
+    "commands": [
+      "architect subagent read-only review"
+    ],
+    "blockers": []
+  },
+  "executorQa": {
+    "status": "passed",
+    "e2eStatus": "passed",
+    "redTeamStatus": "passed",
+    "evidence": "qa lane (executor agent, read-only) on sourceHash sha256:f5e7d934...db61: node --test test/ tests 25, pass 25, fail 0. Browser evidence is from the Claude planning session built-in browser, NOT gjc; gjc automated browser failed to start (3 attempts). Human confirmation of fix-2 is NOT claimed. The fix-2 trace (browser-trace-fix2.json, commit 4072ee9) supports V-7, V-8, V-11 and the hold part of V-9. The fix-2 trace does NOT include V-9 wall-bump or tap-burst checks; those exist only in browser-run-fix1.json (fix-1 build). Qa lane status passed with that caveat. Cleaner lane (separate) failed on test expectations, see iteration.",
+    "e2eCommands": [
+      "node --test test/"
+    ],
+    "redTeamCommands": [
+      "node --test test/redteam.test.js"
+    ],
+    "artifactRefs": [
+      {
+        "id": "browser-trace-fix2",
+        "kind": "browser-automation",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-fix1-browser/browser-trace-fix2.json",
+        "description": "Fix-2 (4072ee9) browser trace by the Claude planning session, not gjc. Source in PROVENANCE.md.",
+        "inlineEvidence": "Scenario A: hold right 460 ms, moves at 313, 463, 613, 763 ms (gaps 150). Scenario B: right then up while locked, up moves only (7,9) and (7,8), right resumes after up release (8,8), gaps 151-159 ms."
+      },
+      {
+        "id": "browser-run-fix1",
+        "kind": "browser-automation",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-fix1-browser/browser-run-fix1.json",
+        "description": "Fix-1 build browser run by the Claude planning session (not gjc). Contains the V-9 wall-bump and tap-burst checks not in the fix-2 trace.",
+        "inlineEvidence": "Wall-bump stops, 3 taps within 100 ms move one tile, hold right moves 4 tiles. Recorded for fix-1 working tree, not fix-2."
+      },
+      {
+        "id": "node-test-output",
+        "kind": "test-run",
+        "path": "test/redteam.test.js",
+        "description": "Node test suite including red-team boundary and failure tests.",
+        "inlineEvidence": "node --test test/ reported 25 tests, 25 pass, 0 fail (qa lane run on e32e281)."
+      },
+      {
+        "id": "gui-screenshot-fix1",
+        "kind": "screenshot",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-fix1-browser/gui-screenshot-fix1.jpg",
+        "description": "Fix-1 build screenshot by the Claude planning session (not gjc).",
+        "inlineEvidence": "Shows wall layout and firefly around column 10, row 8. Fix-1 build, not fix-2."
+      }
+    ],
+    "contractCoverage": [
+      {
+        "id": "contract-1",
+        "contractRef": "approved-plan:goal",
+        "obligation": "Firefly moves one cell per arrow press on the level 1 map, does not move into walls or off-grid, and holds move every 150 ms (GAME_DESIGN 2장)",
+        "status": "covered",
+        "surfaceEvidenceRefs": [
+          "surface-1"
+        ],
+        "adversarialCaseRefs": [
+          "case-invalid-input"
+        ]
+      }
+    ],
+    "surfaceEvidence": [
+      {
+        "id": "surface-1",
+        "surface": "gui/web",
+        "contractRef": "approved-plan:goal",
+        "invocation": "Claude planning session built-in browser against http://127.0.0.1:8765/index.html, fix-2 build 4072ee9 (trace) and fix-1 build (wall-bump record). Not gjc.",
+        "status": "covered",
+        "artifactRefs": [
+          "browser-trace-fix2",
+          "browser-run-fix1",
+          "gui-screenshot-fix1"
+        ],
+        "result": "Fix-2 trace supports V-7, V-8, V-11 and hold part of V-9; V-9 wall-bump and tap-burst exist only in the fix-1 record; not human-confirmed."
+      }
+    ],
+    "adversarialCases": [
+      {
+        "id": "case-invalid-input",
+        "contractRef": "approved-plan:goal",
+        "scenario": "Invalid direction strings, blocked presses during and after lock, simultaneous keys, malformed level characters, empty and ragged maps (test/redteam.test.js)",
+        "expectedBehavior": "Invalid direction never moves; blocked press does not lock; malformed map throws (GAME_DESIGN 2장, 5장)",
+        "status": "passed",
+        "artifactRefs": [
+          "node-test-output"
+        ]
+      }
+    ],
+    "blockers": []
+  },
+  "criticReview": {
+    "verdict": "OKAY",
+    "evidence": "Final critic aggregate (critic agent, read-only) on sourceHash sha256:f5e7d934...db61: no blocker. 2장 rules match src/logic.js and src/main.js; level 1 matches 5장 cell-for-cell; palette matches 6장. Agent output: agent://11-Fix3FinalVerdict. Non-blocking: out-of-screen branch unreachable with R1 border and not directly tested; palette and level 1 still marked 에이전트 제안 pending human confirmation.",
+    "blockers": []
+  },
+  "iteration": {
+    "status": "failed",
+    "evidence": "Single review cohort on sourceHash sha256:f5e7d934...db61. Architect WATCH. Cleaner failed: test/redteam.test.js:18 and :33 use MOVE_LOCK_MS (code constant) as expected value instead of design 150 ms; :5 imports it only for that. Qa passed (25/25). Critic final verdict OKAY. Lanes cleaner and qa are substitutes: no agents named cleaner or qa exist; critic and executor (read-only) ran those roles. The cleaner failure is not fixed in this round by instruction.",
+    "fullRerun": true,
+    "reviewCohort": {
+      "reviewGeneration": 1,
+      "sourceHash": "sha256:f5e7d9344c6164a5e1c33344964b28a161bd93968af7abbb93f6cf9c4982db61",
+      "joined": true,
+      "lanes": {
+        "architect": {
+          "status": "WATCH",
+          "sourceHash": "sha256:f5e7d9344c6164a5e1c33344964b28a161bd93968af7abbb93f6cf9c4982db61",
+          "evidence": "architect (bundled): architecture CLEAR, product WATCH, code WATCH, COMMENT. agent://9-Fix3Architect",
+          "blockers": []
+        },
+        "cleaner": {
+          "status": "failed",
+          "sourceHash": "sha256:f5e7d9344c6164a5e1c33344964b28a161bd93968af7abbb93f6cf9c4982db61",
+          "evidence": "cleaner role run by critic agent (bundled; no cleaner agent exists). agent://10-Fix3Cleaner",
+          "blockers": [
+            "test/redteam.test.js:18 expected lockedUntil uses MOVE_LOCK_MS, not literal 150 (GAME_DESIGN 2장)",
+            "test/redteam.test.js:33 same violation",
+            "test/redteam.test.js:5 MOVE_LOCK_MS import only used for expectations"
+          ]
+        },
+        "qa": {
+          "status": "passed",
+          "sourceHash": "sha256:f5e7d9344c6164a5e1c33344964b28a161bd93968af7abbb93f6cf9c4982db61",
+          "evidence": "qa role run by executor agent in read-only mode (no qa agent exists). node 25/25 pass. agent://12-Fix3Qa",
+          "blockers": []
+        }
+      }
+    },
+    "rerunCommands": [
+      "node --test test/"
+    ],
+    "blockers": [
+      "cleaner lane: test expectations use code constant MOVE_LOCK_MS"
+    ]
+  }
+}

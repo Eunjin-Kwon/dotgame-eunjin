@@ -1,0 +1,118 @@
+{
+  "architectReview": {
+    "architectureStatus": "CLEAR",
+    "productStatus": "WATCH",
+    "codeStatus": "WATCH",
+    "recommendation": "COMMENT",
+    "evidence": "architect (bundled, read-only) on sourceHash sha256:78c4cd90af5ecbbaecd9228b94f4fe511c449da6286e624bc34062d4999caaa8 (HEAD 75ee1b2). Architecture CLEAR. Product WATCH, code WATCH, recommendation COMMENT. Closed: R-1 (release test now asserts visible move), R-3 (level 1 compared with 5장 block), R-4 (2장 row added; code matches), R-5 (wiring test with fake globals). Open: F-1 MEDIUM the two new 2장 rows are tagged (확정) and the repo cannot prove human confirmation; the rows were dictated by the user in this session, so the source is the user's instruction, not a separate review. F-2 LOW keydown uses performance.now() while frame uses rAF timestamp, so cadence is frame-quantized (not measured). F-3 LOW 2장 does not define a blocked last-pressed key with an earlier key still held. F-4 LOW no test drives press-during-lock followed by unlock move. F-5 LOW tests not executed by architect lane. Agent output: agent://13-Fix4Architect.",
+    "commands": ["architect subagent read-only review"],
+    "blockers": []
+  },
+  "executorQa": {
+    "status": "passed",
+    "e2eStatus": "passed",
+    "redTeamStatus": "passed",
+    "evidence": "qa lane (executor agent, read-only) on sourceHash sha256:78c4cd90...caaa8: node --test test/ gives tests 31, pass 31, fail 0; redteam 6/6; wiring 5/5. Browser evidence is from the Claude planning session built-in browser, NOT gjc (gjc automated browser failed to start 3 times). Human confirmation is NOT claimed for fix-4 or fix-2; the user's manual check was on the pre-fix-2 build. src/ and index.html are unchanged from fix-2 4072ee9 to HEAD 75ee1b2, so the fix-2 trace applies to the current runtime code. Items covered only by the fix-1 record: document.title and body background check, 3-taps-within-100ms lock burst, up-into-wall and edge-wall stop checks.",
+    "e2eCommands": ["node --test test/"],
+    "redTeamCommands": ["node --test test/redteam.test.js"],
+    "artifactRefs": [
+      {
+        "id": "browser-trace-fix2",
+        "kind": "browser-automation",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-fix1-browser/browser-trace-fix2.json",
+        "description": "Fix-2 (4072ee9) browser trace by the Claude planning session, not gjc. Source in PROVENANCE.md.",
+        "inlineEvidence": "Scenario A: hold right 460 ms, first move 7 ms after keydown, gaps 150 ms. Scenario B: right then up while locked, up moves only, right resumes after up release, gaps 151-159 ms."
+      },
+      {
+        "id": "browser-run-fix1",
+        "kind": "browser-automation",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-fix1-browser/browser-run-fix1.json",
+        "description": "Fix-1 build browser run by the Claude planning session (not gjc). Contains the wall-bump, tap-burst, and title/background checks not in the fix-2 trace.",
+        "inlineEvidence": "Wall-bump stops, 3 taps within 100 ms move one tile, hold right moves 4 tiles. Recorded for fix-1 working tree."
+      },
+      {
+        "id": "node-test-output",
+        "kind": "test-run",
+        "path": "test/wiring.test.js",
+        "description": "Node test suite: redteam, wiring, level, logic tests.",
+        "inlineEvidence": "node --test test/ reported 31 tests, 31 pass, 0 fail. redteam 6/6, wiring 5/5."
+      },
+      {
+        "id": "gui-screenshot-fix1",
+        "kind": "screenshot",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-fix1-browser/gui-screenshot-fix1.jpg",
+        "description": "Fix-1 build screenshot by the Claude planning session (not gjc).",
+        "inlineEvidence": "Shows wall layout and firefly around column 10, row 8. Fix-1 build."
+      }
+    ],
+    "contractCoverage": [
+      {
+        "id": "contract-1",
+        "contractRef": "approved-plan:goal",
+        "obligation": "Firefly moves one cell per arrow press on the level 1 map, does not move into walls or off-grid, and holds move every 150 ms (GAME_DESIGN 2장)",
+        "status": "covered",
+        "surfaceEvidenceRefs": ["surface-1"],
+        "adversarialCaseRefs": ["case-invalid-input"]
+      }
+    ],
+    "surfaceEvidence": [
+      {
+        "id": "surface-1",
+        "surface": "gui/web",
+        "contractRef": "approved-plan:goal",
+        "invocation": "Claude planning session built-in browser against http://127.0.0.1:8765/index.html, fix-2 trace and fix-1 record. Not gjc.",
+        "status": "covered",
+        "result": "Fix-2 trace supports V-7, V-8, V-11 and hold part of V-9 for the current runtime code. V-9 wall-bump and tap-burst exist only in the fix-1 record. Not human-confirmed.",
+        "artifactRefs": ["browser-trace-fix2", "browser-run-fix1", "gui-screenshot-fix1"]
+      }
+    ],
+    "adversarialCases": [
+      {
+        "id": "case-invalid-input",
+        "contractRef": "approved-plan:goal",
+        "scenario": "Invalid direction strings, blocked presses during and after lock, simultaneous keys with release fallback, malformed level characters, empty and ragged maps (test/redteam.test.js)",
+        "expectedBehavior": "Invalid direction never moves; blocked press does not lock; release resumes the still-held key; malformed map throws (GAME_DESIGN 2장, 5장)",
+        "status": "passed",
+        "artifactRefs": ["node-test-output"]
+      }
+    ],
+    "blockers": []
+  },
+  "criticReview": {
+    "verdict": "OKAY",
+    "evidence": "Final critic aggregate (critic agent, read-only) on sourceHash sha256:78c4cd90...caaa8: no blocker. Lock-time press implemented via held plus frame re-apply (src/main.js frame, src/logic.js requestMove guard). Level 1 matches 5장 block line for line; test reads the block from GAME_DESIGN.md. Palette matches 6장. Agent output: agent://15-Fix4FinalVerdict.",
+    "blockers": []
+  },
+  "iteration": {
+    "status": "failed",
+    "evidence": "Single review cohort on sourceHash sha256:78c4cd90...caaa8. Architect lane WATCH (product and code WATCH, not CLEAR), so the iteration cannot be marked passed. Cleaner lane (critic agent in cleaner role) passed with no blockers. QA lane (executor agent, read-only) passed, 31/31. Critic final verdict OKAY. Lanes cleaner and qa are substitutes: no agents named cleaner or qa exist; critic and executor (read-only) ran those roles.",
+    "fullRerun": true,
+    "reviewCohort": {
+      "reviewGeneration": 1,
+      "sourceHash": "sha256:78c4cd90af5ecbbaecd9228b94f4fe511c449da6286e624bc34062d4999caaa8",
+      "joined": true,
+      "lanes": {
+        "architect": {
+          "status": "WATCH",
+          "sourceHash": "sha256:78c4cd90af5ecbbaecd9228b94f4fe511c449da6286e624bc34062d4999caaa8",
+          "evidence": "architect (bundled): architecture CLEAR, product WATCH, code WATCH, COMMENT. agent://13-Fix4Architect",
+          "blockers": []
+        },
+        "cleaner": {
+          "status": "passed",
+          "sourceHash": "sha256:78c4cd90af5ecbbaecd9228b94f4fe511c449da6286e624bc34062d4999caaa8",
+          "evidence": "cleaner role run by critic agent (bundled; no cleaner agent exists). agent://14-Fix4Cleaner. No blockers.",
+          "blockers": []
+        },
+        "qa": {
+          "status": "passed",
+          "sourceHash": "sha256:78c4cd90af5ecbbaecd9228b94f4fe511c449da6286e624bc34062d4999caaa8",
+          "evidence": "qa role run by executor agent in read-only mode (no qa agent exists). node 31/31 pass. agent://16-Fix4Qa",
+          "blockers": []
+        }
+      }
+    },
+    "rerunCommands": ["node --test test/"],
+    "blockers": ["architect lane WATCH (product and code WATCH)"]
+  }
+}

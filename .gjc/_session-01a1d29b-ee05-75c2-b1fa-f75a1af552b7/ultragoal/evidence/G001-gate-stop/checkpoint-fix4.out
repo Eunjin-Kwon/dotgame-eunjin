@@ -1,0 +1,1 @@
+Cannot checkpoint G001 as complete while its durable goals.json status is blocked; only active or retryable failed goals can be completed.

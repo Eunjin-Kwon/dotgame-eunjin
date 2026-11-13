@@ -1,13 +1,19 @@
 {
   "skill": "ultragoal",
-  "phase": "active",
+  "phase": "blocked",
   "active": true,
-  "activated_at": "2026-11-13T08:49:06.685Z",
-  "updated_at": "2026-11-13T08:49:06.685Z",
+  "activated_at": "2026-11-13T08:57:45.470Z",
+  "updated_at": "2026-11-13T08:57:45.470Z",
   "session_id": "01a1d29b-ee05-75c2-b1fa-f75a1af552b7",
   "hud": {
     "version": 1,
     "chips": [
+      {
+        "label": "blocked",
+        "value": "1",
+        "priority": 5,
+        "severity": "blocked"
+      },
       {
         "label": "goals",
         "value": "0/1",
@@ -15,12 +21,12 @@
       },
       {
         "label": "current",
-        "value": "G001:# R1 계획 개정 5 (최종) — 반딧불이 한 칸 이동 (revision, stage_n 5)",
+        "value": "blocked",
         "priority": 20
       },
       {
         "label": "status",
-        "value": "active",
+        "value": "blocked",
         "priority": 30
       },
       {
@@ -29,7 +35,7 @@
         "priority": 35
       }
     ],
-    "updated_at": "2026-11-13T08:49:06.684Z"
+    "updated_at": "2026-11-13T08:57:45.469Z"
   },
   "receipt": {
     "version": 1,
@@ -38,15 +44,15 @@
     "command": "gjc ultragoal (reconcile)",
     "state_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/skill-active-state.json",
     "storage_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/ultragoal-state.json",
-    "mutated_at": "2026-11-13T08:49:06.679Z",
-    "fresh_until": "2026-11-13T09:19:06.679Z",
+    "mutated_at": "2026-11-13T08:57:45.463Z",
+    "fresh_until": "2026-11-13T09:27:45.463Z",
     "status": "fresh",
-    "mutation_id": "ultragoal:reconcile:2026-11-13T08:49:06.679Z",
+    "mutation_id": "ultragoal:reconcile:2026-11-13T08:57:45.463Z",
     "verb": "reconcile",
     "forced": true,
     "from_phase": "active",
-    "to_phase": "active"
+    "to_phase": "blocked"
   },
-  "source_state_revision": 10,
-  "state_revision": 9
+  "source_state_revision": 11,
+  "state_revision": 10
 }

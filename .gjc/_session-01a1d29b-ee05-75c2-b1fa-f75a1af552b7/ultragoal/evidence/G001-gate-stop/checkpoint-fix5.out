@@ -1,0 +1,9 @@
+checkpoint --status complete (final aggregate) requires criticReview with verdict OKAY, non-empty evidence, and empty blockers
+qualityGate criticReview.blockers must be an empty blockers array
+checkpoint --status complete requires architect review approval: architectReview architecture/product/code must be CLEAR and recommendation must be APPROVE
+qualityGate architectReview.blockers must be an empty blockers array
+qualityGate executorQa.blockers must be an empty blockers array
+qualityGate executorQa.surfaceEvidence[0].status must be covered, passed, verified, or not_applicable
+qualityGate iteration must be passed with fullRerun true
+qualityGate iteration.blockers must be an empty blockers array
+iteration.reviewCohort.lanes.cleaner.status must be CLEAR or passed

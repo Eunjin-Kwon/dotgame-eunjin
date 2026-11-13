@@ -58,6 +58,25 @@ test('releasing the last pressed key resumes the still-held earlier key, and tha
   assert.equal(s.y, 10);
 });
 
+// GAME_DESIGN.md 2장 "마지막 키가 막혔을 때": 가장 나중에 누른 키의 방향이 벽이나 화면 밖이면, 다른 키가 눌려 있어도 제자리에 머문다.
+// (1,10) -> up held -> (1,9) (floor). Then left is pressed last; (0,9) is the border wall.
+test('when the last pressed key is blocked, the firefly stays even if an earlier key is held', () => {
+  let held = pressDirection([], 'left');
+  let s = at(START, 'left', 0); // (1,10), locks until 150
+  assert.equal(s.x, 1);
+  held = pressDirection(held, 'up');
+  s = at(s, activeDirection(held), 150); // up is active: (1,9)
+  assert.equal(s.y, 9);
+  held = pressDirection(held, 'left'); // left is now the last pressed key
+  const before = s;
+  s = at(s, activeDirection(held), 300);
+  assert.deepEqual(s, before, 'blocked last key: no move and lock unchanged');
+  held = releaseDirection(held, 'left');
+  s = at(s, activeDirection(held), 450); // up is still held and open: (1,8)
+  assert.equal(s.y, 8);
+  assert.equal(s.x, 1);
+});
+
 test('malformed level data is rejected: missing start, two starts, ragged rows, bad characters', () => {
   assert.throws(() => parseLevel(['###', '#.#', '###']), /no start cell/);
   assert.throws(() => parseLevel(['#P#', '#.##']), /width mismatch/);

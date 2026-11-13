@@ -1,98 +1,122 @@
 // Minimal wiring test for src/main.js. window, document, canvas, requestAnimationFrame,
 // and performance are fakes. Expected values come from GAME_DESIGN.md 2장 (150 ms hold, keys)
-// and 5장 (P at (2,10)). Each node --test file runs in its own process, so the globals stay local.
+// and 5장 (P at (2,10), row 9 and row 8 floor cells).
+//
+// Each test boots a fresh main.js instance (a new module URL gives new module state) with fresh
+// fakes, so every test runs alone and in any order.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-let now = 0;
-const listeners = {};
-const fillRects = [];
-let frameCallback = null;
+let bootCount = 0;
 
-const ctx = {
-  fillStyle: '',
-  clearRect() {},
-  fillRect(x, y, w, h) {
-    fillRects.push({ x, y, w, h });
-  },
-};
-const canvas = { width: 512, height: 384, getContext: () => ctx };
+async function boot() {
+  const listeners = {};
+  const fillRects = [];
+  const app = { now: 0, listeners, fillRects, frameCallback: null, document: null };
+  const ctx = {
+    fillStyle: '',
+    clearRect() {},
+    fillRect(x, y, w, h) {
+      fillRects.push({ x, y, w, h });
+    },
+  };
+  const canvas = { width: 512, height: 384, getContext: () => ctx };
+  app.document = { title: '', body: { style: {} }, getElementById: () => canvas };
 
-globalThis.window = {
-  addEventListener: (type, fn) => {
-    listeners[type] = fn;
-  },
-};
-globalThis.document = {
-  title: '',
-  body: { style: {} },
-  getElementById: () => canvas,
-};
-globalThis.requestAnimationFrame = (cb) => {
-  frameCallback = cb;
-};
-Object.defineProperty(globalThis, 'performance', {
-  value: { now: () => now },
-  configurable: true,
-  writable: true,
-});
+  globalThis.window = {
+    addEventListener: (type, fn) => {
+      listeners[type] = fn;
+    },
+  };
+  globalThis.document = app.document;
+  globalThis.requestAnimationFrame = (cb) => {
+    app.frameCallback = cb;
+  };
+  Object.defineProperty(globalThis, 'performance', {
+    value: { now: () => app.now },
+    configurable: true,
+    writable: true,
+  });
 
-// Importing main.js runs its top-level wiring once.
-await import('../src/main.js');
+  bootCount += 1;
+  await import(`../src/main.js?boot=${bootCount}`);
+  return app;
+}
 
-// The firefly sprite's first non-transparent pixel is row 1, column 1 (4 px scale).
-// Level tiles are 32 px and are drawn as 32x32 rects, so 4x4 rects are firefly pixels.
-function runFrame(t) {
-  fillRects.length = 0;
-  now = t;
-  frameCallback(t);
-  const rect = fillRects.find((r) => r.w === 4);
+// Runs one animation frame at time t and returns the firefly cell.
+// The firefly's first non-transparent pixel is row 1, column 1 of an 8x8 sprite at 4 px scale,
+// so the first 4x4 rect is at (cell.x * 32 + 4, cell.y * 32 + 4).
+function frame(app, t) {
+  app.fillRects.length = 0;
+  app.now = t;
+  app.frameCallback(t);
+  const rect = app.fillRects.find((r) => r.w === 4);
   return { x: (rect.x - 4) / 32, y: (rect.y - 4) / 32 };
 }
 
-test('startup: title and background come from strings.js and the palette, firefly starts at P (2,10)', () => {
-  assert.equal(document.title, '반딧불이 이슬 모으기');
-  assert.equal(document.body.style.background, '#1E2B24');
-  assert.deepEqual(runFrame(0), { x: 2, y: 10 });
+function keyDown(app, t, key) {
+  app.now = t;
+  app.listeners.keydown({ key, repeat: false, preventDefault() {} });
+}
+
+function keyUp(app, key) {
+  app.listeners.keyup({ key });
+}
+
+test('startup: title and background come from strings.js and the palette, firefly starts at P (2,10)', async () => {
+  const app = await boot();
+  assert.equal(app.document.title, '반딧불이 이슬 모으기');
+  assert.equal(app.document.body.style.background, '#1E2B24');
+  assert.deepEqual(frame(app, 0), { x: 2, y: 10 });
 });
 
-test('keydown moves one cell at once; a held key moves again after 150 ms', () => {
-  now = 1000;
-  listeners.keydown({ key: 'ArrowRight', repeat: false, preventDefault() {} });
-  assert.deepEqual(runFrame(1000), { x: 3, y: 10 }, 'immediate move on keydown');
-  assert.deepEqual(runFrame(1150), { x: 4, y: 10 }, 'held key moves at 150 ms');
+test('keydown moves one cell at once; a held key moves again after 150 ms', async () => {
+  const app = await boot();
+  frame(app, 0);
+  keyDown(app, 1000, 'ArrowRight');
+  assert.deepEqual(frame(app, 1000), { x: 3, y: 10 }, 'immediate move on keydown');
+  assert.deepEqual(frame(app, 1150), { x: 4, y: 10 }, 'held key moves at 150 ms');
 });
 
-test('keyup stops the held move', () => {
-  listeners.keyup({ key: 'ArrowRight' });
-  assert.deepEqual(runFrame(1400), { x: 4, y: 10 });
+test('keyup stops the held move', async () => {
+  const app = await boot();
+  frame(app, 0);
+  keyDown(app, 1000, 'ArrowRight');
+  frame(app, 1000);
+  assert.deepEqual(frame(app, 1150), { x: 4, y: 10 });
+  keyUp(app, 'ArrowRight');
+  assert.deepEqual(frame(app, 1400), { x: 4, y: 10 });
 });
 
-test('a non-arrow key does nothing', () => {
-  listeners.keydown({ key: 'Enter', repeat: false, preventDefault() {} });
-  assert.deepEqual(runFrame(1600), { x: 4, y: 10 });
+test('a non-arrow key does nothing', async () => {
+  const app = await boot();
+  frame(app, 0);
+  keyDown(app, 1600, 'Enter');
+  assert.deepEqual(frame(app, 1600), { x: 2, y: 10 });
 });
 
-test('blur clears held keys, so no move continues after focus is lost', () => {
-  now = 2000;
-  listeners.keydown({ key: 'ArrowLeft', repeat: false, preventDefault() {} });
-  assert.deepEqual(runFrame(2000), { x: 3, y: 10 });
-  listeners.blur();
-  assert.deepEqual(runFrame(2300), { x: 3, y: 10 }, 'no held move after blur');
+test('blur clears held keys, so no move continues after focus is lost', async () => {
+  const app = await boot();
+  frame(app, 0);
+  keyDown(app, 2000, 'ArrowRight');
+  assert.deepEqual(frame(app, 2000), { x: 3, y: 10 });
+  app.listeners.blur();
+  // Without the blur, Right would still be held and move to (4,10) at 2150 ms.
+  assert.deepEqual(frame(app, 2150), { x: 3, y: 10 }, 'no held move after blur');
 });
 
-// GAME_DESIGN.md 2장 '잠금 중에 누른 키': 잠금 중에 누른 키를 계속 누르고 있으면 잠금이 풀리는 즈시 그 방향으로 이동한다.
-// (3,10) -> right -> (4,10); up pressed during the 150 ms lock; at unlock (4,10) -> up -> (4,9).
-// Row 9 is '#.##......##..##', so (4,9) is floor.
-test('a key pressed during the lock moves at unlock if still held; releasing it stops the move', () => {
-  now = 3000;
-  listeners.keydown({ key: 'ArrowRight', repeat: false, preventDefault() {} });
-  assert.deepEqual(runFrame(3000), { x: 4, y: 10 }, 'right moves at once');
-  now = 3050;
-  listeners.keydown({ key: 'ArrowUp', repeat: false, preventDefault() {} });
-  assert.deepEqual(runFrame(3050), { x: 4, y: 10 }, 'up pressed during the lock does not move yet');
-  assert.deepEqual(runFrame(3150), { x: 4, y: 9 }, 'at unlock the held up key moves');
-  listeners.keyup({ key: 'ArrowUp' });
-  listeners.keyup({ key: 'ArrowRight' });
-  assert.deepEqual(runFrame(3400), { x: 4, y: 9 }, 'nothing held: no further move');
+// GAME_DESIGN.md 2장 '잠금 중에 누른 키': 잠금 중에 누른 키를 계속 누르고 있으면 잠금이 풀리는 즉시 그 방향으로 이동한다.
+// (2,10) -> left -> (1,10) at 3000 (locks until 3150); up pressed at 3050 during the lock;
+// at unlock (1,10) -> up -> (1,9). Row 9 is '#.##......##..##', so (1,9) is floor.
+test('a key pressed during the lock moves at unlock if still held; releasing it stops the move', async () => {
+  const app = await boot();
+  frame(app, 0);
+  keyDown(app, 3000, 'ArrowLeft');
+  assert.deepEqual(frame(app, 3000), { x: 1, y: 10 }, 'left moves at once');
+  keyDown(app, 3050, 'ArrowUp');
+  assert.deepEqual(frame(app, 3050), { x: 1, y: 10 }, 'up pressed during the lock does not move yet');
+  assert.deepEqual(frame(app, 3150), { x: 1, y: 9 }, 'at unlock the held up key moves');
+  keyUp(app, 'ArrowUp');
+  keyUp(app, 'ArrowLeft');
+  assert.deepEqual(frame(app, 3400), { x: 1, y: 9 }, 'nothing held: no further move');
 });

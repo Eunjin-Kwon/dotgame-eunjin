@@ -6,7 +6,7 @@
 
 ## 명령어
 - 테스트: node --test test/
-- 실행: index.html 을 브라우저로 연다 (서버 없음). 필요하면 python3 -m http.server 8000
+- 실행: python3 -m http.server 8000 으로 서버를 띄운 뒤 http://localhost:8000/index.html 을 연다. index.html을 file://로 직접 열면 ES module이 CORS로 막혀 동작하지 않는다
 - 커밋: goal 하나에 하나. 메시지는 goal-N: / replan-N: / design-vN: / fix-N:
 
 ## 코드 규칙

@@ -1,0 +1,118 @@
+{
+  "architectReview": {
+    "architectureStatus": "WATCH",
+    "productStatus": "WATCH",
+    "codeStatus": "WATCH",
+    "recommendation": "REQUEST CHANGES",
+    "evidence": "architect (bundled, read-only) on sourceHash sha256:ab3b8d18de08c9684e2f9655720bad0e7e7ff71b43e6c95b0033b4a9d378a0fb (HEAD bdb637f). Architecture WATCH, product WATCH, code WATCH, recommendation REQUEST CHANGES. Findings: F1 HIGH AGENTS.md run line says open index.html with no server, but index.html loads src/main.js as a module, which Chromium blocks on file://; the team evidence uses http://127.0.0.1:8765. F2 MEDIUM the 2장 frame note '최대 약 167 ms' is the 60 Hz value; the bound is one frame, so the note should say 'one frame longer'. F3 MEDIUM no red-team test for 2장 '마지막 키가 막혔을 때'. F4 MEDIUM the two rows added in fix-5 were labeled 확정 by the agent; the repo cannot show the exact sentences were confirmed except by the user's instruction recorded in confirmation.md. F5 LOW typo '즈시' in test/wiring.test.js:84 comment. F6 LOW performance.now() in keydown vs rAF timestamp in frame, clock skew not tested. Agent output: agent://17-Fix5Architect.",
+    "commands": ["architect subagent read-only review"],
+    "blockers": ["F1 AGENTS.md run instruction is stale for file:// (HIGH)", "F3 missing red-team test for 마지막 키가 막혔을 때"]
+  },
+  "executorQa": {
+    "status": "passed",
+    "e2eStatus": "passed",
+    "redTeamStatus": "passed",
+    "evidence": "qa lane (executor agent, read-only) on sourceHash sha256:ab3b8d18...78a0fb: node --test test/ tests 32, pass 32, fail 0; redteam 6/6; wiring 6/6. QA did not run wiring tests in isolation, so the order dependence found by the cleaner lane is not covered by this result. Browser evidence is from the Claude planning session built-in browser, NOT gjc (gjc automated browser failed to start 3 times). Human browser check of the fix-5 build is NOT claimed. src/ and index.html unchanged since fix-2 4072ee9. Items covered only by the fix-1 record: body background check, 3-taps-within-100ms lock burst, wall and edge bump stops.",
+    "e2eCommands": ["node --test test/"],
+    "redTeamCommands": ["node --test test/redteam.test.js"],
+    "artifactRefs": [
+      {
+        "id": "browser-trace-fix2",
+        "kind": "browser-automation",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-fix1-browser/browser-trace-fix2.json",
+        "description": "Fix-2 (4072ee9) browser trace by the Claude planning session, not gjc. Source in PROVENANCE.md.",
+        "inlineEvidence": "Scenario A: hold right 460 ms, first move 7 ms after keydown, gaps 150 ms. Scenario B: right then up while locked, up moves only, right resumes after up release."
+      },
+      {
+        "id": "browser-run-fix1",
+        "kind": "browser-automation",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-fix1-browser/browser-run-fix1.json",
+        "description": "Fix-1 build browser run by the Claude planning session (not gjc).",
+        "inlineEvidence": "Wall-bump stops, 3 taps within 100 ms move one tile, hold right moves 4 tiles, title and background checked."
+      },
+      {
+        "id": "node-test-output",
+        "kind": "test-run",
+        "path": "test/wiring.test.js",
+        "description": "Node test suite: logic, level, redteam, wiring.",
+        "inlineEvidence": "node --test test/ reported 32 tests, 32 pass, 0 fail. redteam 6/6, wiring 6/6."
+      },
+      {
+        "id": "human-design-confirm",
+        "kind": "human-confirmation",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-human-design-confirm/confirmation.md",
+        "description": "Record of the user's confirmation of the 2장 rows. Explicitly does not claim a browser check of fix-5.",
+        "inlineEvidence": "Confirms 2장 rows 막힌 입력, 동시 입력, 키를 뗀 뒤, 잠금 중에 누른 키, 마지막 키가 막혔을 때, and the frame note."
+      }
+    ],
+    "contractCoverage": [
+      {
+        "id": "contract-1",
+        "contractRef": "approved-plan:goal",
+        "obligation": "Firefly moves one cell per arrow press on the level 1 map, does not move into walls or off-grid, and holds move every 150 ms (GAME_DESIGN 2장)",
+        "status": "covered",
+        "surfaceEvidenceRefs": ["surface-1"],
+        "adversarialCaseRefs": ["case-invalid-input"]
+      }
+    ],
+    "surfaceEvidence": [
+      {
+        "id": "surface-1",
+        "surface": "gui/web",
+        "contractRef": "approved-plan:goal",
+        "invocation": "Claude planning session built-in browser against http://127.0.0.1:8765/index.html, fix-2 trace and fix-1 record. Not gjc.",
+        "status": "covered",
+        "result": "Fix-2 trace supports V-7, V-8, V-11 and hold part of V-9 for the current runtime code. V-9 wall-bump and tap-burst exist only in the fix-1 record. Not human-confirmed for fix-5.",
+        "artifactRefs": ["browser-trace-fix2", "browser-run-fix1"]
+      }
+    ],
+    "adversarialCases": [
+      {
+        "id": "case-invalid-input",
+        "contractRef": "approved-plan:goal",
+        "scenario": "Invalid direction strings, blocked presses, simultaneous keys with release fallback, press during lock, malformed level characters (test/redteam.test.js, test/wiring.test.js)",
+        "expectedBehavior": "Invalid direction never moves; blocked press does not lock; release resumes the still-held key; press during lock moves at unlock if held; malformed map throws (GAME_DESIGN 2장, 5장)",
+        "status": "passed",
+        "artifactRefs": ["node-test-output"]
+      }
+    ],
+    "blockers": ["qa did not run wiring tests in isolation; cleaner found order dependence"]
+  },
+  "criticReview": {
+    "verdict": "REJECT",
+    "evidence": "Final critic aggregate (critic agent, read-only) on sourceHash sha256:ab3b8d18...78a0fb: REJECT. Blocker: no red-team test for the new 2장 확정 row '마지막 키가 막혔을 때' (GAME_DESIGN.md:24). Behavior is correct by reading (src/logic.js activeDirection and blocked return). Agent output: agent://20-Fix5FinalVerdict.",
+    "blockers": ["missing red-team coverage for 마지막 키가 막혔을 때"]
+  },
+  "iteration": {
+    "status": "failed",
+    "evidence": "Single review cohort on sourceHash sha256:ab3b8d18...78a0fb. Architect WATCH with REQUEST CHANGES. Cleaner failed (wiring test order-dependence at test/wiring.test.js:87 when run in isolation; typo at :84). Critic REJECT (missing red-team test). QA passed 32/32 in full-file order. Lanes cleaner and qa are substitutes: no agents named cleaner or qa exist; critic and executor (read-only) ran those roles. No fix is applied in this round.",
+    "fullRerun": true,
+    "reviewCohort": {
+      "reviewGeneration": 1,
+      "sourceHash": "sha256:ab3b8d18de08c9684e2f9655720bad0e7e7ff71b43e6c95b0033b4a9d378a0fb",
+      "joined": true,
+      "lanes": {
+        "architect": {
+          "status": "WATCH",
+          "sourceHash": "sha256:ab3b8d18de08c9684e2f9655720bad0e7e7ff71b43e6c95b0033b4a9d378a0fb",
+          "evidence": "architect (bundled): WATCH/WATCH/WATCH, REQUEST CHANGES. agent://17-Fix5Architect",
+          "blockers": ["F1 HIGH AGENTS.md file:// run instruction stale", "F3 missing red-team test"]
+        },
+        "cleaner": {
+          "status": "failed",
+          "sourceHash": "sha256:ab3b8d18de08c9684e2f9655720bad0e7e7ff71b43e6c95b0033b4a9d378a0fb",
+          "evidence": "cleaner role run by critic agent (bundled; no cleaner agent exists). agent://19-Fix5Cleaner",
+          "blockers": ["test/wiring.test.js:87 order-dependent: depends on blur test state; fails when run in isolation", "test/wiring.test.js:84 typo 즈시"]
+        },
+        "qa": {
+          "status": "passed",
+          "sourceHash": "sha256:ab3b8d18de08c9684e2f9655720bad0e7e7ff71b43e6c95b0033b4a9d378a0fb",
+          "evidence": "qa role run by executor agent in read-only mode (no qa agent exists). node 32/32 in full-file order. agent://18-Fix5Qa",
+          "blockers": []
+        }
+      }
+    },
+    "rerunCommands": ["node --test test/"],
+    "blockers": ["architect REQUEST CHANGES", "cleaner failed", "critic REJECT"]
+  }
+}

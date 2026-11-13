@@ -1,0 +1,121 @@
+{
+  "architectReview": {
+    "architectureStatus": "CLEAR",
+    "productStatus": "WATCH",
+    "codeStatus": "WATCH",
+    "recommendation": "COMMENT",
+    "evidence": "architect (bundled) read-only review of sourceHash sha256:3881db4ed3ab25e60ae35a8749d3791c4f800b83608a3762413febb5ffc4be62 (HEAD e179cd6). Architecture CLEAR. Product and code WATCH, recommendation COMMENT. Non-blocking findings: R-1 MEDIUM release-fallback assertion in test/redteam.test.js:45-54 is vacuous; R-2 MEDIUM release-to-earlier-held-key fallback is not specified in GAME_DESIGN 2장 and needs a human decision; R-3 MEDIUM level 1 pinned only by counts and border, not cell-by-cell against 5장; R-4 LOW a press during the 150 ms lock stays held and can move at unlock, unstated in design; R-5 LOW keydown/keyup/blur/rAF wiring has no node test. Architect reported F1, F4, F5 closed. Agent output: agent://6-FixArchitect.",
+    "commands": ["architect subagent read-only review"],
+    "blockers": []
+  },
+  "executorQa": {
+    "status": "failed",
+    "e2eStatus": "passed",
+    "redTeamStatus": "passed",
+    "evidence": "node --test test/ run by qa lane (executor agent, read-only): tests 25, pass 25, fail 0. Browser record is from the Claude planning session built-in browser, NOT gjc; gjc automated browser failed to start 3 times (Tab worker startup failed, stage=init, mode=native-free, platform=darwin). Human confirmation of fix-1 is NOT claimed. QA lane verdict failed on V-11: the recorded hold-right-then-up step went from [6,10] to [7,8], which the record does not explain with a timing trace.",
+    "e2eCommands": ["node --test test/"],
+    "redTeamCommands": ["node --test test/redteam.test.js"],
+    "artifactRefs": [
+      {
+        "id": "browser-run-fix1",
+        "kind": "browser-automation",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-fix1-browser/browser-run-fix1.json",
+        "description": "Browser run record for fix-1 by the Claude planning session (not gjc). Source attribution in PROVENANCE.md.",
+        "inlineEvidence": "Record lists V-7 canvas 512x384, V-8 start (2,10), V-9 single tap, wall stops, tap-burst lock, hold 4 tiles; V-11 hold-right-then-up recorded as [6,10] -> [7,8]; QA lane marked V-11 unmatched."
+      },
+      {
+        "id": "gui-screenshot-fix1",
+        "kind": "screenshot",
+        "path": ".gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-fix1-browser/gui-screenshot-fix1.jpg",
+        "description": "Screenshot from the Claude planning session built-in browser (not gjc). Shows wall layout and firefly at about column 10, row 8.",
+        "inlineEvidence": "Screenshot is consistent with the recorded final position [10,8]. It does not by itself verify V-11 timing."
+      },
+      {
+        "id": "node-test-output",
+        "kind": "test-run",
+        "path": "test/redteam.test.js",
+        "description": "Red-team node tests for boundary and failure cases (25/25 with full suite).",
+        "inlineEvidence": "node --test test/ reported 25 tests, 25 pass, 0 fail."
+      }
+    ],
+    "contractCoverage": [
+      {
+        "id": "contract-1",
+        "contractRef": "approved-plan:goal",
+        "obligation": "Firefly moves one cell per arrow press on the level 1 map, does not move into walls or off-grid, and holds move every 150 ms (GAME_DESIGN 2장)",
+        "status": "partially-covered",
+        "surfaceEvidenceRefs": ["surface-1"],
+        "adversarialCaseRefs": ["case-invalid-input"]
+      }
+    ],
+    "surfaceEvidence": [
+      {
+        "id": "surface-1",
+        "surface": "gui/web",
+        "contractRef": "approved-plan:goal",
+        "invocation": "Claude planning session built-in browser against http://127.0.0.1:8765/index.html (fix-1 working tree). Not gjc.",
+        "verdict": "failed",
+        "artifactRefs": ["browser-run-fix1", "gui-screenshot-fix1"]
+      }
+    ],
+    "adversarialCases": [
+      {
+        "id": "case-invalid-input",
+        "contractRef": "approved-plan:goal",
+        "scenario": "Invalid direction strings, blocked presses during and after lock, simultaneous keys, malformed level characters, empty and ragged maps (test/redteam.test.js)",
+        "expectedBehavior": "Invalid direction never moves; blocked press does not lock; malformed map throws (GAME_DESIGN 2장, 5장)",
+        "verdict": "passed",
+        "artifactRefs": ["node-test-output"]
+      }
+    ],
+    "blockers": [
+      "V-11 unexplained displacement in browser record (qa lane)",
+      "Browser evidence is not gjc-run and is not human-confirmed"
+    ]
+  },
+  "criticReview": {
+    "verdict": "NOT_RUN",
+    "evidence": "No critic final-aggregate verdict exists for sourceHash sha256:3881db4e...be62. The critic agent was used as the cleaner lane, not as a verdict reviewer. The earlier OKAY verdict was for a different source state and is not reused.",
+    "blockers": []
+  },
+  "iteration": {
+    "status": "failed",
+    "evidence": "Single review cohort on sourceHash sha256:3881db4e...be62. Architect lane WATCH; cleaner lane failed with 4 blockers; qa lane failed on V-11. No steering iteration has resolved these. Lanes cleaner and qa are substitutes: no agents named cleaner or qa exist; critic and executor (read-only) ran those roles.",
+    "fullRerun": false,
+    "reviewCohort": {
+      "reviewGeneration": 1,
+      "sourceHash": "sha256:3881db4ed3ab25e60ae35a8749d3791c4f800b83608a3762413febb5ffc4be62",
+      "joined": true,
+      "lanes": {
+        "architect": {
+          "status": "WATCH",
+          "sourceHash": "sha256:3881db4ed3ab25e60ae35a8749d3791c4f800b83608a3762413febb5ffc4be62",
+          "evidence": "architect agent (bundled): architecture CLEAR, product WATCH, code WATCH, COMMENT. agent://6-FixArchitect",
+          "blockers": []
+        },
+        "cleaner": {
+          "status": "failed",
+          "sourceHash": "sha256:3881db4ed3ab25e60ae35a8749d3791c4f800b83608a3762413febb5ffc4be62",
+          "evidence": "cleaner role run by critic agent (bundled; no cleaner agent exists). agent://7-FixCleaner. 4 blockers.",
+          "blockers": [
+            "src/logic.js:13 isDirection exported but unused outside logic.js",
+            "src/render.js:4 TILE_PX=32 duplicates SPRITE_SCALE*8 in src/sprites.js:16, kept in sync only by test",
+            "index.html:5 empty title placeholder; real title set in src/main.js:15",
+            "test/logic.test.js:53,67 comments cite a section 1-5 that does not exist in GAME_DESIGN.md"
+          ]
+        },
+        "qa": {
+          "status": "failed",
+          "sourceHash": "sha256:3881db4ed3ab25e60ae35a8749d3791c4f800b83608a3762413febb5ffc4be62",
+          "evidence": "qa role run by executor agent in read-only mode (no qa agent exists). node 25/25 pass. agent://8-FixQa. V-11 mismatch in browser record.",
+          "blockers": [
+            "V-11 hold-right-then-up displacement [6,10] -> [7,8] not explained by record",
+            "browser record is not gjc-run and human-unconfirmed"
+          ]
+        }
+      }
+    },
+    "rerunCommands": ["node --test test/"],
+    "blockers": ["cleaner lane 4 blockers", "qa lane V-11 mismatch"]
+  }
+}
