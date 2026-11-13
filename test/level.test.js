@@ -1,0 +1,66 @@
+// Expected values come from GAME_DESIGN.md sections 5 and 6.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { LEVEL_1_ROWS, parseLevel } from '../src/levels.js';
+import { PALETTE, FIREFLY_SPRITE, SPRITE_SCALE } from '../src/sprites.js';
+
+const level = parseLevel(LEVEL_1_ROWS);
+
+test('level 1 is 16 x 12 tiles (5장, 2장 화면 512x384 / 32 px)', () => {
+  assert.equal(level.width, 16);
+  assert.equal(level.height, 12);
+});
+
+test('level 1 border is all walls (5장: 가장자리는 벽)', () => {
+  for (let x = 0; x < level.width; x++) {
+    assert.equal(level.blocked(x, 0), true, `top ${x}`);
+    assert.equal(level.blocked(x, level.height - 1), true, `bottom ${x}`);
+  }
+  for (let y = 0; y < level.height; y++) {
+    assert.equal(level.blocked(0, y), true, `left ${y}`);
+    assert.equal(level.blocked(level.width - 1, y), true, `right ${y}`);
+  }
+});
+
+test('level 1 has 11 interior walls (5장)', () => {
+  let count = 0;
+  for (let y = 1; y < level.height - 1; y++) {
+    for (let x = 1; x < level.width - 1; x++) {
+      if (level.blocked(x, y)) count++;
+    }
+  }
+  assert.equal(count, 11);
+});
+
+test('level 1 has exactly one start P on a floor cell at (2, 10) (5장)', () => {
+  assert.deepEqual(level.start, { x: 2, y: 10 });
+  assert.equal(level.blocked(level.start.x, level.start.y), false);
+});
+
+test('palette is the 8 hex values of 6장 in order', () => {
+  assert.deepEqual(PALETTE, [
+    '#1E2B24',
+    '#4A5A4C',
+    '#FFE66D',
+    '#3A2A1A',
+    '#F2F7EE',
+    '#7FD8FF',
+    '#8B3A62',
+    '#C9B7FF',
+  ]);
+});
+
+test('firefly sprite is 8 px square, scaled to one 32 px tile (2장, 4장)', () => {
+  assert.equal(FIREFLY_SPRITE.length, 8);
+  for (const row of FIREFLY_SPRITE) assert.equal(row.length, 8);
+  assert.equal(8 * SPRITE_SCALE, 32);
+});
+
+test('firefly sprite uses only R1 palette indices 2-4 (6장 반딧불이 색)', () => {
+  for (const row of FIREFLY_SPRITE) {
+    for (const ch of row) {
+      if (ch === '.') continue;
+      assert.ok(['2', '3', '4'].includes(ch), ch);
+    }
+  }
+});

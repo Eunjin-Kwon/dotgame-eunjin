@@ -1,0 +1,63 @@
+{
+  "skill": "ultragoal",
+  "status": "blocked",
+  "current_phase": "blocked",
+  "active": true,
+  "goals": [
+    {
+      "id": "G001",
+      "title": "# R1 계획 개정 5 (최종) — 반딧불이 한 칸 이동 (revision, stage_n 5)",
+      "status": "blocked"
+    }
+  ],
+  "counts": {
+    "pending": 0,
+    "active": 0,
+    "complete": 0,
+    "failed": 0,
+    "blocked": 1,
+    "review_blocked": 0,
+    "superseded": 0
+  },
+  "ledger_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/ledger.jsonl",
+  "brief_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/brief.md",
+  "goals_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/goals.json",
+  "gjc_objective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+  "nudge_budget": 6,
+  "nudge_count": 0,
+  "nudge_remaining": 6,
+  "nudge_goal_id": "G001",
+  "nudge_target_kind": "story",
+  "latestLedgerEvent": {
+    "event": "critic_verdict",
+    "goalId": "G001",
+    "timestamp": "2026-11-13T06:51:31.134Z",
+    "evidence": "Independent critic re-review after tap fix (src/main.js keydown now calls requestMove). Autonomous work: none remaining. Remaining items are human-only: browser check V-7/V-8/V-9/V-11 at http://localhost:8765/index.html and 9장 (R2). node --test test/ 14/14 pass, run by the orchestrator after the fix."
+  },
+  "version": 2,
+  "updated_at": "2026-11-13T06:51:31.143Z",
+  "receipt": {
+    "version": 1,
+    "skill": "ultragoal",
+    "owner": "gjc-runtime",
+    "command": "gjc ultragoal (reconcile)",
+    "state_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/skill-active-state.json",
+    "storage_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/ultragoal-state.json",
+    "mutated_at": "2026-11-13T06:51:31.143Z",
+    "fresh_until": "2026-11-13T07:21:31.143Z",
+    "status": "fresh",
+    "mutation_id": "ultragoal:reconcile:2026-11-13T06:51:31.143Z",
+    "verb": "reconcile",
+    "from_phase": "blocked",
+    "to_phase": "blocked",
+    "forced": true,
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "d612d80001b330fdf4cd036de9122b57590a4f2d4a185518cc00aaed36db9644",
+      "covered_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/ultragoal-state.json",
+      "computed_at": "2026-11-13T06:51:31.144Z"
+    }
+  },
+  "session_id": "01a1d29b-ee05-75c2-b1fa-f75a1af552b7",
+  "state_revision": 8
+}
