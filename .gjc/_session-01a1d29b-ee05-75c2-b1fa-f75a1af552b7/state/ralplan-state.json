@@ -1,0 +1,47 @@
+{
+  "active": true,
+  "current_phase": "final",
+  "skill": "ralplan",
+  "version": 2,
+  "mode": "short",
+  "interactive": false,
+  "task": "R1 계획: GAME_DESIGN.md v0와 AGENTS.md 기준. goal은 하나 — 맵 위에서 캐릭터(반딧불이)가 한 칸 움직인다. 기획서에 없는 것은 넣지 않는다. 코드는 수정하지 않는다 (계획만).",
+  "run_id": "01a1d29b-ee05-75c2-b1fa-f75a1af552b7",
+  "updated_at": "2026-11-13T05:43:41.252Z",
+  "repository_binding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/eunjinkwon/dev/dotgame-eunjin",
+    "commonDir": "/Users/eunjinkwon/dev/dotgame-eunjin/.git",
+    "displayPath": "/Users/eunjinkwon/dev/dotgame-eunjin",
+    "head": "a0ea9ca6d51e2904aa58831754f1dbfc3521a62b",
+    "branch": "main"
+  },
+  "session_id": "01a1d29b-ee05-75c2-b1fa-f75a1af552b7",
+  "receipt": {
+    "version": 1,
+    "skill": "ralplan",
+    "owner": "gjc-runtime",
+    "command": "gjc ralplan final-admission",
+    "state_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/skill-active-state.json",
+    "storage_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/ralplan-state.json",
+    "mutated_at": "2026-11-13T05:43:41.252Z",
+    "fresh_until": "2026-11-13T06:13:41.252Z",
+    "status": "fresh",
+    "mutation_id": "ralplan:2026-11-13T05:43:41.252Z",
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "2009726ce793aa394c781f2926432edf81a45375519ed44f55c17dedf6d03a5d",
+      "covered_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/ralplan-state.json",
+      "computed_at": "2026-11-13T05:43:41.252Z"
+    }
+  },
+  "last_review_verdict": "OKAY",
+  "last_review_verdict_lane": "critic",
+  "last_review_verdict_stage_n": 5,
+  "auto_handoff": {
+    "configuredTarget": "off",
+    "effectiveTarget": "off",
+    "degradationReason": null,
+    "source": "default"
+  }
+}
