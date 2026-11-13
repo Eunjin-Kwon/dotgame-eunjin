@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "active": true,
+  "skill": "deep-interview",
+  "phase": "handoff",
+  "updated_at": "2026-11-13T02:31:28.060Z",
+  "session_id": "01a1d29b-ee05-75c2-b1fa-f75a1af552b7",
+  "active_skills": [
+    {
+      "skill": "deep-interview",
+      "phase": "handoff",
+      "active": true,
+      "activated_at": "2026-11-13T02:31:28.060Z",
+      "updated_at": "2026-11-13T02:31:28.060Z",
+      "session_id": "01a1d29b-ee05-75c2-b1fa-f75a1af552b7",
+      "hud": {
+        "version": 1,
+        "chips": [
+          {
+            "label": "phase",
+            "value": "handoff",
+            "priority": 10
+          },
+          {
+            "label": "ambiguity",
+            "value": "17%/60%",
+            "priority": 20
+          },
+          {
+            "label": "round",
+            "value": "9",
+            "priority": 30
+          },
+          {
+            "label": "target",
+            "value": "game-core",
+            "priority": 40
+          },
+          {
+            "label": "weakest",
+            "value": "constraints",
+            "priority": 50
+          },
+          {
+            "label": "spec",
+            "value": "persisted",
+            "priority": 60
+          }
+        ],
+        "updated_at": "2026-11-13T02:31:28.059Z"
+      },
+      "source_state_revision": 18,
+      "state_revision": 17
+    }
+  ],
+  "active_subskills": [],
+  "source_state_revision": 28,
+  "state_revision": 28
+}
