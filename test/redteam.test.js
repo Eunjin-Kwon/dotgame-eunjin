@@ -2,20 +2,21 @@
 // sections 2 (movement rules) and 5 (level 1 map). Uses the real level 1 data.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { requestMove, MOVE_LOCK_MS, pressDirection, releaseDirection, activeDirection } from '../src/logic.js';
+import { requestMove, pressDirection, releaseDirection, activeDirection } from '../src/logic.js';
 import { LEVEL_1_ROWS, parseLevel } from '../src/levels.js';
 
+const LOCK_MS = 150; // GAME_DESIGN.md 2장: 한 칸 이동 시간 150 ms
 const level = parseLevel(LEVEL_1_ROWS);
-const START = { x: 2, y: 10, lockedUntil: 0 }; // 5장 P
+const START = { x: 2, y: 10, lockedUntil: 0 }; // GAME_DESIGN.md 5장: P
 
 const at = (state, dir, nowMs) => requestMove(state, dir, nowMs, level);
 
 test('tap burst: many presses inside one 150 ms lock move exactly one cell', () => {
   let s = START;
-  for (let t = 0; t < MOVE_LOCK_MS; t += 10) s = at(s, 'right', t);
+  for (let t = 0; t < LOCK_MS; t += 10) s = at(s, 'right', t);
   assert.equal(s.x, 3);
   assert.equal(s.y, 10);
-  assert.equal(s.lockedUntil, MOVE_LOCK_MS);
+  assert.equal(s.lockedUntil, 150);
 });
 
 test('hold: one cell every 150 ms while the key stays pressed', () => {
@@ -30,7 +31,7 @@ test('blocked presses do not start a lock: a valid press right after moves at on
   for (const t of [150, 151, 152, 153, 154]) {
     s = at(s, 'left', t); // (0,10) is the border wall: each press is blocked
     assert.equal(s.x, 1, `blocked at ${t}`);
-    assert.equal(s.lockedUntil, MOVE_LOCK_MS, `lock unchanged at ${t}`);
+    assert.equal(s.lockedUntil, 150, `lock unchanged at ${t}`);
   }
   s = at(s, 'right', 155);
   assert.equal(s.x, 2, 'valid move at 155 ms is not locked by the blocked presses');
@@ -42,15 +43,18 @@ test('invalid direction values never move the firefly', () => {
   }
 });
 
-test('simultaneous keys follow the last pressed key through real moves', () => {
-  let held = pressDirection([], 'up');
-  held = pressDirection(held, 'right');
-  let s = at(START, activeDirection(held), 0); // right
+// GAME_DESIGN.md 2장 "키를 뗀 뒤": 아직 누르고 있는 키가 있으면 그중 가장 나중에 누른 키의 방향으로 이어서 이동한다.
+test('releasing the last pressed key resumes the still-held earlier key, and that key moves the firefly', () => {
+  let held = pressDirection([], 'right');
+  let s = at(START, activeDirection(held), 0); // right: (3,10)
   assert.equal(s.x, 3);
-  held = releaseDirection(held, 'right');
-  // Up is active again. Row 9 is '#.##......##..##', so (3,9) is a wall and up from (3,10) stays put.
-  s = at(s, activeDirection(held), 150);
-  assert.equal(s.x, 3);
+  held = pressDirection(held, 'left');
+  s = at(s, activeDirection(held), 200); // left: (2,10)
+  assert.equal(s.x, 2);
+  held = releaseDirection(held, 'left');
+  assert.equal(activeDirection(held), 'right', 'right is active again after left is released');
+  s = at(s, activeDirection(held), 400); // right: (3,10), a visible move
+  assert.equal(s.x, 3, 'the resumed direction actually moves the firefly');
   assert.equal(s.y, 10);
 });
 

@@ -35,7 +35,7 @@
     "evidence": "품질 게이트 미통과. 사유: 게이트가 bun e2e/red-team을 요구하지만 이 과제는 package.json과 npm이 금지라 만족할 수 없음. 사용자 승인으로 완료 요청 — 단, gjc checkpoint complete는 검증 통과한 quality-gate JSON을 요구하고 waiver 플래그가 없어 기록 불가. 근거: source-hash sha256:53283067696b408c3f1d09b27df999b1b21badef5a918746a11f162dba639132 (base refs/remotes/origin/main=efcda8e); architect 독립 리뷰 architecture CLEAR, product/code WATCH, recommendation COMMENT, blockers 3개(F1 last-pressed 규칙 미검증, F4 맵 오타 미검출, F5 src/strings.js 없음 및 배경색 중복); node --test test/ 14/14 통과; 브라우저 확인 V-7·V-8·V-9·V-11 (사용자 확인). 알려진 한계 F1~F6은 고치지 않고 기록: F1 last-pressed 규칙이 main.js에 있고 테스트 없음; F2 GAME_DESIGN 9장 비어 있음; F3 반복 간격 150~167 ms; F4 parseLevel이 오타를 무시; F5 src/strings.js 없음, 배경색 중복; F6 커밋 7e94ee5에 .gjc 런타임 파일 혼입. 검증 초안과 validator 출력: .gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/ultragoal/evidence/G001-gate-waiver/"
   },
   "version": 2,
-  "updated_at": "2026-11-13T07:20:08.421Z",
+  "updated_at": "2026-11-13T07:40:02.160Z",
   "receipt": {
     "version": 1,
     "skill": "ultragoal",
@@ -43,21 +43,21 @@
     "command": "gjc ultragoal (reconcile)",
     "state_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/skill-active-state.json",
     "storage_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/ultragoal-state.json",
-    "mutated_at": "2026-11-13T07:20:08.421Z",
-    "fresh_until": "2026-11-13T07:50:08.421Z",
+    "mutated_at": "2026-11-13T07:40:02.160Z",
+    "fresh_until": "2026-11-13T08:10:02.160Z",
     "status": "fresh",
-    "mutation_id": "ultragoal:reconcile:2026-11-13T07:20:08.421Z",
+    "mutation_id": "ultragoal:reconcile:2026-11-13T07:40:02.160Z",
     "verb": "reconcile",
     "from_phase": "blocked",
     "to_phase": "blocked",
     "forced": true,
     "content_sha256": {
       "algorithm": "sha256",
-      "value": "d5069f8e14c16f9347a4d95312954dae2eca545ae6e1eebde7ff7af6975382fa",
+      "value": "7c39f8d9de9723774634d8df6690690ce14e874b35f15f205184fdff992e50d7",
       "covered_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d29b-ee05-75c2-b1fa-f75a1af552b7/state/ultragoal-state.json",
-      "computed_at": "2026-11-13T07:20:08.421Z"
+      "computed_at": "2026-11-13T07:40:02.161Z"
     }
   },
   "session_id": "01a1d29b-ee05-75c2-b1fa-f75a1af552b7",
-  "state_revision": 12
+  "state_revision": 13
 }

@@ -1,6 +1,7 @@
 // Expected values come from GAME_DESIGN.md sections 5 and 6.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { LEVEL_1_ROWS, parseLevel } from '../src/levels.js';
 import { PALETTE, FIREFLY_SPRITE, SPRITE_SCALE, TILE_PX } from '../src/sprites.js';
 
@@ -10,6 +11,15 @@ const level = parseLevel(LEVEL_1_ROWS);
 test('a character outside # . P is rejected, not treated as floor', () => {
   assert.throws(() => parseLevel(['###', '#x#', '#P#']), /unknown level char 'x' at 1,1/);
   assert.throws(() => parseLevel(['###', '# #', '#P#']), /unknown level char ' '/);
+});
+
+// GAME_DESIGN.md 5장 '레벨 1' 코드 블록을 직접 읽어 글자 단위로 비교한다 (숫자를 복사하지 않는다)
+test('level 1 rows match the 5장 code block character for character', () => {
+  const design = readFileSync(new URL('../GAME_DESIGN.md', import.meta.url), 'utf8');
+  const section = design.slice(design.indexOf('### 레벨 1'));
+  const block = section.match(/```\n([\s\S]*?)```/)[1].split('\n').filter((line) => line.length > 0);
+  assert.equal(block.length, 12);
+  assert.deepEqual(LEVEL_1_ROWS, block);
 });
 
 test('an empty level is rejected', () => {
