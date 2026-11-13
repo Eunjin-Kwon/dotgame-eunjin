@@ -1,0 +1,41 @@
+{
+  "executedBy": "Claude planning session (built-in browser pane, not gjc), 2026-11-13",
+  "target": "http://127.0.0.1:8765/index.html?fresh=fix2, served from the dotgame-eunjin working tree at commit 4072ee9 (fix-2)",
+  "freshLoadCheck": "performance resource transferSize > 0 for main.js, logic.js, levels.js, render.js, sprites.js, strings.js, so modules were fetched, not served from cache",
+  "method": "KeyboardEvent dispatched to window; firefly tile read from canvas pixels (#FFE66D) every animation frame; times are ms since the run started (performance.now)",
+  "consoleErrors": 0,
+  "meta": {"title": "반딧불이 이슬 모으기", "canvas": [512, 384], "start": [2, 10]},
+  "scenarioA_hold_right_460ms": {
+    "description": "V-9: keydown ArrowRight at t=306, keyup at t=767",
+    "moves": [
+      {"t": 313, "to": [3, 10]},
+      {"t": 463, "to": [4, 10]},
+      {"t": 613, "to": [5, 10]},
+      {"t": 763, "to": [6, 10]}
+    ],
+    "gapsMs": [150, 150, 150],
+    "verdict": "first move happens 7 ms after keydown, then exactly one tile every 150 ms while held"
+  },
+  "scenarioB_hold_right_then_add_up_then_release_up": {
+    "description": "V-11: keydown Right t=1068, keydown Up t=1099 (still locked), keyup Up t=1520, keyup Right t=1941",
+    "events": [
+      {"t": 1068, "event": "keydown ArrowRight"},
+      {"t": 1071, "move": [7, 10], "note": "immediate move on keydown; lock until t=1221"},
+      {"t": 1099, "event": "keydown ArrowUp", "note": "ignored while locked, becomes the last pressed key"},
+      {"t": 1222, "move": [7, 9], "note": "first frame after lock: moves up, not right"},
+      {"t": 1380, "move": [7, 8]},
+      {"t": 1520, "event": "keyup ArrowUp"},
+      {"t": 1538, "move": [8, 8], "note": "right resumes after up is released (2장 row: 키를 뗀 뒤)"},
+      {"t": 1697, "move": [9, 8]},
+      {"t": 1847, "move": [10, 8]},
+      {"t": 1941, "event": "keyup ArrowRight"}
+    ],
+    "gapsMsBetweenMoves": [151, 158, 158, 159, 150],
+    "explains": "the earlier recorded jump [6,10] to [7,8] is: one move right (immediate on keydown), then two moves up while Up was the last pressed key",
+    "verdict": "while Up is the last pressed key the firefly moves up only (no diagonal); after Up is released it continues right; every step is >=150 ms apart (150 to 159 ms, frame jitter)"
+  },
+  "limits": [
+    "Does not cover double-click file:// opening (ES modules blocked by CORS there).",
+    "The user's own manual confirmation ('동작 잘 한다') was made on the build before fix-2 (working tree after fix-1). fix-2 changed only refactors and comments; it is covered here by the trace and by node --test (25/25), not by a new human check."
+  ]
+}
