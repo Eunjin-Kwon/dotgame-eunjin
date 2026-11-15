@@ -9,6 +9,7 @@ import {
 } from './sprites.js';
 import { STRINGS } from './strings.js';
 
+
 export function drawLevel(ctx, level) {
   for (let y = 0; y < level.height; y++) {
     for (let x = 0; x < level.width; x++) {
@@ -63,8 +64,53 @@ export function drawHud(ctx, world) {
   ctx.textAlign = 'left';
 }
 
-// Draws one play frame in the order: level, dewdrops, spider, firefly, HUD.
-export function drawWorld(ctx, world) {
+// Text uses one typeface everywhere (9장 26): the system monospace family, sizes vary only.
+function drawCentered(ctx, lines) {
+  ctx.font = 'monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = PALETTE[4];
+  for (const [text, size, y] of lines) {
+    ctx.font = `${size}px monospace`;
+    ctx.fillText(text, 256, y);
+  }
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
+}
+
+// Title shows the name and the start prompt only: no map, no firefly (O8).
+export function drawTitle(ctx, canvas) {
+  ctx.fillStyle = PALETTE[0];
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  drawCentered(ctx, [
+    [STRINGS.gameTitle, 28, 160],
+    [STRINGS.titleStart, 16, 230],
+  ]);
+}
+
+// Clear and fail screens: a dark panel with the result text.
+export function drawResult(ctx, canvas, world, score) {
+  ctx.fillStyle = PALETTE[0];
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  if (world.phase === 'won') {
+    drawCentered(ctx, [
+      [STRINGS.clearTitle, 28, 160],
+      [STRINGS.clearScore(score), 18, 210],
+      [STRINGS.clearBack, 16, 260],
+    ]);
+    return;
+  }
+  const reason = world.reason === 'timeout' ? STRINGS.failTime : STRINGS.failSpider;
+  drawCentered(ctx, [
+    [reason, 24, 170],
+    [STRINGS.failRetry, 16, 230],
+  ]);
+}
+
+// Draws one frame. Title and result screens replace the board; play draws the board and HUD.
+export function drawWorld(ctx, world, canvas, score) {
+  if (world.phase === 'title') return drawTitle(ctx, canvas);
+  if (world.phase === 'won' || world.phase === 'lost') return drawResult(ctx, canvas, world, score);
   drawLevel(ctx, world.level);
   drawDewdrops(ctx, world.dewdrops);
   drawSpider(ctx, world.spider);

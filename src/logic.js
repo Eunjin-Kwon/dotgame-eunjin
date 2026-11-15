@@ -182,6 +182,20 @@ export function advance(world, nowMs) {
   return next;
 }
 
+// ---- goal-3 screens ----------------------------------------------------
+// Title: the level is shown as data only; nothing moves and no timer runs until Enter (O1).
+export function createTitle(level) {
+  return { ...createWorld(level, 0), phase: 'title' };
+}
+
+// Enter on title or after a loss starts (or restarts) the same level from scratch (9장 수용 23).
+// Enter after a clear returns to the title (9장 수용 24). Enter during play does nothing.
+export function enter(world, nowMs) {
+  if (world.phase === 'title' || world.phase === 'lost') return createWorld(world.level, nowMs);
+  if (world.phase === 'won') return createTitle(world.level);
+  return world;
+}
+
 // Score (9장 수용 20): dewdrops x 100 + remaining integer seconds x 10. A failed run scores 0.
 export function scoreOf(world) {
   if (world.phase !== 'won') return 0;

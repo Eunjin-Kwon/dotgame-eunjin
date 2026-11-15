@@ -8,10 +8,10 @@
       "id": "G001",
       "title": "goal-2 목표물·위협·타이머",
       "objective": "Implement in src/logic.js (pure, no canvas): createWorld(level, nowMs), startPlay(level, nowMs), advance(world, nowMs, input) as one tick pipeline (player move, contact, pickup, spider move, contact, timer). Spider patrols row y=6 every 300 ms with re-anchor on long delay. Integer-second timer 60 -> 0. Contact = immediate stop; 8/8 pickup = won stop (screen is goal-3). Use the frame nowMs only; no performance.now() in keydown. Level map from GAME_DESIGN 5장 characters (o, S) copied into src/levels.js. HUD on wall row. Tests in node --test test/ with expectations from the design numbers.\nCompletion sentence: index.html을 http로 열어 플레이하면 이슬방울 8개를 먹을 때마다 사라지고 개수가 올라가며, 거미가 가로로 왕복하고, 시간이 60에서 줄어들고, 거미에 닿거나 0이 되면 게임이 멈춘다. (수용 기준 6~17)",
-      "status": "review_blocked",
+      "status": "blocked",
       "createdAt": "2026-11-15T06:07:01.843Z",
-      "updatedAt": "2026-11-15T06:20:14.029Z",
-      "evidence": "architect review agent 5-G001ArchitectReview: architectureStatus WATCH, recommendation COMMENT; findings P2 src/logic.js timer gap rule, P2 src/render.js HUD bar on wall row. Automated tests: node --test test/ 54/54 pass. Headless Chrome screenshot /tmp/ralplan-r2-01a1d42c/goal2-start.png shows HUD and map.",
+      "updatedAt": "2026-11-15T06:31:19.676Z",
+      "evidence": "goal-2 품질 게이트 1회 시도 실패(커밋 9ae4968). 실패 사유: architectReview가 WATCH/COMMENT(CLEAR/APPROVE 필요), executorQa의 e2e·red-team 스위트가 없어 passed 불가, iteration이 not-run이고 reviewCohort 없음. 자동 테스트 54/54와 사람 확인(원장 annotate)은 있으나 게이트 요구를 충족하지 못했다. 재시도 없음(정책: goal당 1회). 사람 확인 항목은 완료됨.",
       "startedAt": "2026-11-15T06:13:48.764Z"
     },
     {
@@ -20,8 +20,8 @@
       "objective": "Add title, clear, fail screens to the same pipeline (phase title | play | won | lost). Enter on title starts play; Enter on won returns to title; Enter on lost restarts the same level. Clear screen shows score (8x100 + remaining seconds x10). Fail screen shows \"거미에게 잡혔어요\" or \"밤이 끝났어요\" with \"Enter 키로 다시 시작\". All UI strings in src/strings.js. Directional keys ignored after won or lost. Move wiring tests that assumed play-on-load into goal-3 scope as listed in the plan.\nCompletion sentence: 타이틀에서 Enter로 시작해 모두 모으면 점수가 있는 클리어 화면이, 거미에게 잡히거나 시간이 다 되면 이유가 있는 실패 화면이 뜨고, Enter로 다시 하거나 타이틀로 돌아간다. (수용 기준 18~26)",
       "status": "blocked",
       "createdAt": "2026-11-15T06:07:01.843Z",
-      "updatedAt": "2026-11-15T06:10:16.166Z",
-      "evidence": "G002(goal-3) 차단: G001(goal-2)이 design-v2 커밋 게이트에 막혀 있어 시작할 수 없고, design-v2 커밋은 사용자의 '맞다/아니다' 응답이 필요하다. 사람 차단 분류 기록: 95d4d43a-2530-4b4c-94ba-81c282307839."
+      "updatedAt": "2026-11-15T06:32:41.681Z",
+      "evidence": "goal-3 구현은 워킹트리에 있으며 아직 커밋하지 않았다(goal-2 커밋 9ae4968 이후 변경). 자동 node --test test/ 66/66 통과(test/goal3.test.js 신규, test/wiring.test.js 타이틀 흐름으로 수정). 헤드리스 Chrome 타이틀 스크린샷 /tmp/ralplan-r2-01a1d42c/goal3-title.png 확인: 타이틀과 'Enter 키로 시작'이 보임. 클리어와 실패 화면은 실제 플레이로 도달해 찍지 않았다(자동 테스트만). 한글 글리프가 시스템 대체 글꼴로 그려져 9장 26번(같은 서체) 사람 확인 필요. 품질 게이트 1회 시도 실패: architect 리뷰 없음(CLEAR/APPROVE 아님), e2e·red-team 스위트 없음, iteration not-run. 재시도 없음."
     },
     {
       "id": "G003",
@@ -38,7 +38,7 @@
     }
   ],
   "createdAt": "2026-11-15T06:07:01.843Z",
-  "updatedAt": "2026-11-15T06:21:23.155Z",
+  "updatedAt": "2026-11-15T06:32:41.681Z",
   "repositoryBinding": {
     "schema": "gjc.repository_binding.v1",
     "worktreeRoot": "/Users/eunjinkwon/dev/dotgame-eunjin",
@@ -47,5 +47,5 @@
     "head": "7ca8b79d9eff4769e0cc222f63c9a5089be1cd81",
     "branch": "main"
   },
-  "state_revision": 8
+  "state_revision": 12
 }
