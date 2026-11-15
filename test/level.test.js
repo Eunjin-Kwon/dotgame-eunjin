@@ -22,6 +22,25 @@ test('level 1 rows match the 5장 code block character for character', () => {
   assert.deepEqual(LEVEL_1_ROWS, block);
 });
 
+// 5장 문자 규칙 (R2): o는 이슬방울, S는 거미 시작. 둘 다 바닥 칸이다.
+test('o and S are accepted as floor cells; a level without S is rejected', () => {
+  assert.throws(() => parseLevel(['###', '#P#', '###']), /no spider cell/);
+  const ok = parseLevel(['#####', '#PoS#', '#####']);
+  assert.equal(ok.blocked(2, 1), false, 'dewdrop cell is floor');
+  assert.equal(ok.blocked(3, 1), false, 'spider cell is floor');
+});
+
+// 9장 수용 9: the level 1 map has 8 dewdrops, each on a floor cell (counted from the map characters)
+test('level 1 has 8 dewdrops, each on a floor cell, and one spider start', () => {
+  assert.equal(level.dewdrops.length, 8);
+  for (const d of level.dewdrops) {
+    assert.equal(level.blocked(d.x, d.y), false, `dewdrop at ${d.x},${d.y}`);
+    assert.equal(LEVEL_1_ROWS[d.y][d.x], 'o');
+  }
+  assert.equal(LEVEL_1_ROWS[level.spider.y][level.spider.x], 'S');
+  assert.equal(level.blocked(level.spider.x, level.spider.y), false);
+});
+
 test('an empty level is rejected', () => {
   assert.throws(() => parseLevel([]), /empty level/);
 });

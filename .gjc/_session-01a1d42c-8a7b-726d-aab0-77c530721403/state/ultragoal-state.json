@@ -5,7 +5,7 @@
   "active": true,
   "handoff_from": "ralplan",
   "handoff_at": "2026-11-15T06:06:41.771Z",
-  "updated_at": "2026-11-15T06:10:58.472Z",
+  "updated_at": "2026-11-15T06:31:01.072Z",
   "receipt": {
     "version": 1,
     "skill": "ultragoal",
@@ -13,19 +13,19 @@
     "command": "gjc ultragoal (reconcile)",
     "state_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/state/skill-active-state.json",
     "storage_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/state/ultragoal-state.json",
-    "mutated_at": "2026-11-15T06:10:58.472Z",
-    "fresh_until": "2026-11-15T06:40:58.472Z",
+    "mutated_at": "2026-11-15T06:31:01.072Z",
+    "fresh_until": "2026-11-15T07:01:01.072Z",
     "status": "fresh",
-    "mutation_id": "ultragoal:reconcile:2026-11-15T06:10:58.472Z",
+    "mutation_id": "ultragoal:reconcile:2026-11-15T06:31:01.072Z",
     "verb": "reconcile",
     "from_phase": "blocked",
     "to_phase": "blocked",
     "forced": true,
     "content_sha256": {
       "algorithm": "sha256",
-      "value": "61d0beea4a0787335946558f645f4956f079d9588b760539c8562a67b1446ce5",
+      "value": "864d9fd4b6e098d0af96ea75a3f56afbf19169ff98271a32266c04bcda2c9944",
       "covered_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/state/ultragoal-state.json",
-      "computed_at": "2026-11-15T06:10:58.472Z"
+      "computed_at": "2026-11-15T06:31:01.072Z"
     }
   },
   "session_id": "01a1d42c-8a7b-726d-aab0-77c530721403",
@@ -34,11 +34,16 @@
     {
       "id": "G001",
       "title": "goal-2 목표물·위협·타이머",
-      "status": "blocked"
+      "status": "review_blocked"
     },
     {
       "id": "G002",
       "title": "goal-3 승패와 화면 전환",
+      "status": "blocked"
+    },
+    {
+      "id": "G003",
+      "title": "Resolve goal-2 design conflicts",
       "status": "blocked"
     }
   ],
@@ -48,7 +53,7 @@
     "complete": 0,
     "failed": 0,
     "blocked": 2,
-    "review_blocked": 0,
+    "review_blocked": 1,
     "superseded": 0
   },
   "ledger_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/ultragoal/ledger.jsonl",
@@ -58,12 +63,13 @@
   "nudge_budget": 6,
   "nudge_count": 0,
   "nudge_remaining": 6,
-  "nudge_goal_id": "G002",
+  "nudge_goal_id": "G003",
   "nudge_target_kind": "story",
   "latestLedgerEvent": {
-    "event": "critic_verdict",
-    "timestamp": "2026-11-15T06:10:58.462Z",
-    "evidence": "Fresh terminal critic 4-PauseCriticFresh: verdict OKAY, pauseJustified=true, remainingAutonomousStep=null. Only GAME_DESIGN.md modified; G001 and G002 blocked behind the design-v2 commit gate; the user must answer 맞다/아니다 and decide token rotation for a0ea9ca."
+    "event": "steering_accepted",
+    "timestamp": "2026-11-15T06:31:01.059Z",
+    "kind": "annotate_ledger",
+    "evidence": "goal-2 사람 확인 결과(사용자 메시지, 2026-11-15 KST). 출처 1: 사용자 직접 확인 - 방울 수집, 거미 왕복과 벽 반전, 접촉 후 정지, 벽·바닥 구분, HUD 글자 크기. 출처 2: 사용자 측 Claude 계획 세션의 브라우저 측정(사용자 보고). 자동 테스트로만 확인된 것 - 시간 0 정지(test/goal2.test.js 'at 0 seconds'), 맞바꿈 정지(test/goal2.test.js 'swapping cells'), 거미가 방울 위를 지나는 것(test/goal2.test.js 'walks over a dewdrop'). 설계 변경 두 건 확인: HUD 줄 벽 색 1번 배경, 프레임 지연 시 지난 초 일괄 감소. 기획서에 확정으로 반영. 참고: 이 세션의 헤드리스 Chrome 스크린샷(/tmp/ralplan-r2-01a1d42c/goal2-hud-bar.png)은 에이전트가 찍은 것이며 사람 확인과 별개다."
   },
-  "state_revision": 17
+  "state_revision": 28
 }

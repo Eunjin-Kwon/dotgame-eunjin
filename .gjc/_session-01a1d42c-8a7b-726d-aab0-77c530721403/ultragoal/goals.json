@@ -8,10 +8,11 @@
       "id": "G001",
       "title": "goal-2 목표물·위협·타이머",
       "objective": "Implement in src/logic.js (pure, no canvas): createWorld(level, nowMs), startPlay(level, nowMs), advance(world, nowMs, input) as one tick pipeline (player move, contact, pickup, spider move, contact, timer). Spider patrols row y=6 every 300 ms with re-anchor on long delay. Integer-second timer 60 -> 0. Contact = immediate stop; 8/8 pickup = won stop (screen is goal-3). Use the frame nowMs only; no performance.now() in keydown. Level map from GAME_DESIGN 5장 characters (o, S) copied into src/levels.js. HUD on wall row. Tests in node --test test/ with expectations from the design numbers.\nCompletion sentence: index.html을 http로 열어 플레이하면 이슬방울 8개를 먹을 때마다 사라지고 개수가 올라가며, 거미가 가로로 왕복하고, 시간이 60에서 줄어들고, 거미에 닿거나 0이 되면 게임이 멈춘다. (수용 기준 6~17)",
-      "status": "blocked",
+      "status": "review_blocked",
       "createdAt": "2026-11-15T06:07:01.843Z",
-      "updatedAt": "2026-11-15T06:10:11.092Z",
-      "evidence": "G001(goal-2) 착수 게이트 차단: design-v2(GAME_DESIGN.md)가 아직 커밋되지 않았고, 커밋은 사용자의 '맞다/아니다' 응답 뒤에만 가능하다. design-v2 초안 검증: 맵이 R2_decisions B절과 글자 단위로 일치, 변경 파일은 GAME_DESIGN.md 하나. 사람 차단 분류 기록: 95d4d43a-2530-4b4c-94ba-81c282307839. 자율적으로 진행할 수 있는 단계 없음(terminal critic OKAY 442b3d61..., 3-PauseCritic)."
+      "updatedAt": "2026-11-15T06:20:14.029Z",
+      "evidence": "architect review agent 5-G001ArchitectReview: architectureStatus WATCH, recommendation COMMENT; findings P2 src/logic.js timer gap rule, P2 src/render.js HUD bar on wall row. Automated tests: node --test test/ 54/54 pass. Headless Chrome screenshot /tmp/ralplan-r2-01a1d42c/goal2-start.png shows HUD and map.",
+      "startedAt": "2026-11-15T06:13:48.764Z"
     },
     {
       "id": "G002",
@@ -21,10 +22,23 @@
       "createdAt": "2026-11-15T06:07:01.843Z",
       "updatedAt": "2026-11-15T06:10:16.166Z",
       "evidence": "G002(goal-3) 차단: G001(goal-2)이 design-v2 커밋 게이트에 막혀 있어 시작할 수 없고, design-v2 커밋은 사용자의 '맞다/아니다' 응답이 필요하다. 사람 차단 분류 기록: 95d4d43a-2530-4b4c-94ba-81c282307839."
+    },
+    {
+      "id": "G003",
+      "title": "Resolve goal-2 design conflicts",
+      "objective": "Settle with the human two design conflicts found by architect review of goal-2: (1) timer long-gap forgiveness rule not in GAME_DESIGN 2장 (recommend remove); (2) HUD background on the top wall row conflicts with 5장 wall row (recommend HUD on wall colour 1, no new colour). Update design only after a human decision, then re-run tests and checkpoint.",
+      "status": "blocked",
+      "createdAt": "2026-11-15T06:20:14.050Z",
+      "updatedAt": "2026-11-15T06:21:23.155Z",
+      "steering": {
+        "kind": "review_blocker",
+        "blockedGoalId": "G001"
+      },
+      "evidence": "두 설계 충돌에 대해 최소 수정을 적용했다. (1) 타이머: 지난 초만큼 한꺼번에 줄이도록 src/logic.js tickTimer 수정, 테스트 'a long frame gap removes every whole second that passed' 추가. (2) HUD 배경: src/render.js drawHud를 벽 색 PALETTE[1]로 변경. GAME_DESIGN.md 2장 제한 시간 행과 3장 HUD 위치 행에 '에이전트 제안, 사람 확인 대기'로 표시. 검증: node --test test/ 54/54 통과, 헤드리스 Chrome 스크린샷 /tmp/ralplan-r2-01a1d42c/goal2-hud-bar.png에서 맨 윗줄이 벽 색으로 보임. 사람 맞다/아니다 확인 전까지 completed가 아니다."
     }
   ],
   "createdAt": "2026-11-15T06:07:01.843Z",
-  "updatedAt": "2026-11-15T06:10:16.166Z",
+  "updatedAt": "2026-11-15T06:21:23.155Z",
   "repositoryBinding": {
     "schema": "gjc.repository_binding.v1",
     "worktreeRoot": "/Users/eunjinkwon/dev/dotgame-eunjin",
@@ -33,5 +47,5 @@
     "head": "7ca8b79d9eff4769e0cc222f63c9a5089be1cd81",
     "branch": "main"
   },
-  "state_revision": 3
+  "state_revision": 8
 }

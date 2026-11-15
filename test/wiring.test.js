@@ -15,10 +15,14 @@ async function boot() {
   const app = { now: 0, listeners, fillRects, frameCallback: null, document: null };
   const ctx = {
     fillStyle: '',
+    font: '',
+    textAlign: '',
+    textBaseline: '',
     clearRect() {},
     fillRect(x, y, w, h) {
-      fillRects.push({ x, y, w, h });
+      fillRects.push({ x, y, w, h, color: this.fillStyle });
     },
+    fillText() {},
   };
   const canvas = { width: 512, height: 384, getContext: () => ctx };
   app.document = { title: '', body: { style: {} }, getElementById: () => canvas };
@@ -45,12 +49,13 @@ async function boot() {
 
 // Runs one animation frame at time t and returns the firefly cell.
 // The firefly's first non-transparent pixel is row 1, column 1 of an 8x8 sprite at 4 px scale,
-// so the first 4x4 rect is at (cell.x * 32 + 4, cell.y * 32 + 4).
+// so the first 4x4 rect is at (cell.x * 32 + 4, cell.y * 32 + 4). Only the firefly uses the
+// yellow glow (palette 2), so dewdrops and the spider are never mistaken for it.
 function frame(app, t) {
   app.fillRects.length = 0;
   app.now = t;
   app.frameCallback(t);
-  const rect = app.fillRects.find((r) => r.w === 4);
+  const rect = app.fillRects.find((r) => r.w === 4 && r.color === '#FFE66D');
   return { x: (rect.x - 4) / 32, y: (rect.y - 4) / 32 };
 }
 

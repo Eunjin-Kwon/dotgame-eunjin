@@ -26,3 +26,26 @@ export const FIREFLY_SPRITE = [
   '..3..3..',
   '........',
 ];
+
+// Dewdrop (palette 5) and spider (palette 6 body, 7 legs and shadow). 8x8, scaled to one tile.
+export const DEWDROP_SPRITE = [
+  '........',
+  '........',
+  '...5....',
+  '..555...',
+  '..555...',
+  '...5....',
+  '........',
+  '........',
+];
+
+export const SPIDER_SPRITE = [
+  '.7.66.7.',
+  '7.6666.7',
+  '..6666..',
+  '.666666.',
+  '.666666.',
+  '..6666..',
+  '7.6..6.7',
+  '7......7',
+];

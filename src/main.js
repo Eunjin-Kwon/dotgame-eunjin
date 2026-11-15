@@ -1,7 +1,7 @@
-// Entry point: input loop and frame loop. Game rules live in logic.js.
-import { requestMove, pressDirection, releaseDirection, activeDirection } from './logic.js';
+// Entry point: input dispatch and frame loop. Game rules live in logic.js.
+import { advance, createWorld, pressKey, releaseKey, clearKeys } from './logic.js';
 import { LEVEL_1_ROWS, parseLevel } from './levels.js';
-import { drawLevel, drawFirefly } from './render.js';
+import { drawWorld } from './render.js';
 import { PALETTE } from './sprites.js';
 import { STRINGS } from './strings.js';
 
@@ -18,37 +18,33 @@ document.body.style.background = PALETTE[0];
 const level = parseLevel(LEVEL_1_ROWS);
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
-let state = { x: level.start.x, y: level.start.y, lockedUntil: 0 };
 
-// Held arrow keys in press order (rules in logic.js: last pressed wins).
-let held = [];
+// The world is created on the first frame, so every timer uses the frame clock only.
+let world = null;
 
 window.addEventListener('keydown', (e) => {
   const dir = KEY_TO_DIR[e.key];
   if (!dir) return;
   e.preventDefault();
-  if (e.repeat) return;
-  held = pressDirection(held, dir);
-  // A press is judged at keydown so a tap released within one frame still moves once (2장).
-  state = requestMove(state, dir, performance.now(), level);
+  if (e.repeat || !world) return;
+  world = pressKey(world, dir);
 });
 
 window.addEventListener('keyup', (e) => {
   const dir = KEY_TO_DIR[e.key];
-  if (!dir) return;
-  held = releaseDirection(held, dir);
+  if (!dir || !world) return;
+  world = releaseKey(world, dir);
 });
 
 window.addEventListener('blur', () => {
-  held = [];
+  if (world) world = clearKeys(world);
 });
 
 function frame(nowMs) {
-  const dir = activeDirection(held);
-  if (dir) state = requestMove(state, dir, nowMs, level);
+  if (!world) world = createWorld(level, nowMs);
+  world = advance(world, nowMs);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawLevel(ctx, level);
-  drawFirefly(ctx, state);
+  drawWorld(ctx, world);
   requestAnimationFrame(frame);
 }
 
