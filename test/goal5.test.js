@@ -142,7 +142,8 @@ function playAllLevels() {
 test('32: clearing level 3 and pressing Enter shows the final screen with the total', () => {
   const { final, scores, seconds } = playAllLevels();
   assert.equal(final.phase, 'final');
-  assert.deepEqual(final.events, ['final']);
+  // 7장: the clear melody also plays when the final screen is entered, then the final save runs.
+  assert.deepEqual(final.events, ['clear', 'final']);
   assert.equal(final.totalScore, scores[0] + scores[1] + scores[2]);
   assert.equal(scores[0], 8 * DEW_PTS + seconds[0] * SEC_PTS, 'level 1: 8 dewdrops');
   assert.equal(scores[1], 10 * DEW_PTS + seconds[1] * SEC_PTS, 'level 2: 10 dewdrops');

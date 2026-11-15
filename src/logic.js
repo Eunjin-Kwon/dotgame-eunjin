@@ -205,7 +205,7 @@ export function createTitle(levels) {
 // Enter moves between screens. levels = the ordered level list (see src/levels.js).
 // title -> start level 1. lost -> restart the same level, keep totalScore (9장 수용 23, 31).
 // won on a non-last level -> start the next level, add this level's score (수용 27, 29).
-// won on the last level -> final screen: adds this level's score, keeps levelIndex, pushes 'final' (수용 32, 33).
+// won on the last level -> final screen: adds this level's score, keeps levelIndex, pushes 'clear' (7장: the clear melody also plays on the final screen) then 'final' (수용 32, 33).
 // final -> title (totalScore restarts at 0, 수용 36).
 // Enter during play does nothing.
 export function enter(world, nowMs, levels) {
@@ -220,7 +220,7 @@ export function enter(world, nowMs, levels) {
       ...world,
       phase: 'final',
       totalScore: world.totalScore + scoreOf(world),
-      events: ['final'],
+      events: ['clear', 'final'],
     };
   }
   if (world.phase === 'final') return createTitle(levels);
