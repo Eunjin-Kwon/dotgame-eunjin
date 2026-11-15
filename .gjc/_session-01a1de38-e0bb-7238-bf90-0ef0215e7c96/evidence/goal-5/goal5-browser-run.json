@@ -1,0 +1,27 @@
+{
+  "executedBy": "Claude planning session (built-in browser pane, not gjc), 2026-11-15",
+  "target": "http://127.0.0.1:8765/index.html (python3 -m http.server, working tree after goal-5 implementation, before the goal-5 commit; HEAD 46a5700 fix-12). Tests: node --test 91/91 on Node 20.20.2 and 22.23.5.",
+  "method": "KeyboardEvent dispatched to window; canvas pixels read for tiles and text; a script played every level through real moves (BFS path avoiding the spider row neighbourhood). Sounds were measured by wrapping BaseAudioContext.prototype.createOscillator to record waveform, frequency calls and start/stop times (not heard by ear). Storage and sound blocking was tested in a same-origin iframe whose document was written with localStorage throwing SecurityError and AudioContext/webkitAudioContext undefined.",
+  "consoleErrors": 0,
+  "acceptance": {
+    "32_final_screen": "After clearing level 3 and pressing Enter the screen shows '모두 클리어!', '총점 4230', '최고 점수 4230', 'Enter 키로 타이틀' (15-final.png). The level 3 clear screen shows only the score (14-clear-level3.png), as 7장 says.",
+    "33_total_is_sum": "clear screens 1330 + 1370 + 1530 = 4230 = total shown. In level 2 the run was first caught (fail) and restarted before clearing, and the fail did not change the total (also 수용 31 second half).",
+    "34_high_score": "localStorage key 'dotgame-eunjin-highscore' = 4230 after the first run; it is the only key; value unchanged by a second run with an equal total; after a page reload the value is still 4230 and the title shows '최고 점수 4230' (16-title-with-highscore.png, 21-title-after-reload.png).",
+    "35_sounds_measured": {
+      "dewdrop": "square wave, setValueAtTime 880 Hz, 80 ms, one per dewdrop (30 dewdrops over the run gave 30 oscillator calls)",
+      "level_clear": "three sequential square oscillators 523 -> 659 -> 784 Hz, 120 ms each (played on every level clear screen including level 3)",
+      "fail": "sawtooth, setValueAtTime 220 Hz then linearRampToValueAtTime 110 Hz over 300 ms",
+      "total_oscillator_calls": 40,
+      "note": "No extra sound was played when the final screen appeared (the clear melody already played at the level 3 clear). Hearing the three sounds is a human check."
+    },
+    "36_return_and_reset": "Enter on the final screen goes to the title; a second full run on the same page showed total 4230 again (not 8460), so the total restarts from 0.",
+    "37_blocked_environment": "With localStorage throwing and no AudioContext, one full run (levels 1 to 3) reached the final screen with '총점 4230', the best-score line hidden, and no error events or console errors (22-final-with-storage-and-audio-blocked.png)."
+  },
+  "screenshots": ["11-clear-level1.png", "12-fail-level2.png", "13-clear-level2.png", "14-clear-level3.png", "15-final.png", "16-title-with-highscore.png", "17-run2-clear-level1.png", "18-run2-clear-level2.png", "19-run2-clear-level3.png", "20-run2-final.png", "21-title-after-reload.png", "22-final-with-storage-and-audio-blocked.png"],
+  "notCovered": [
+    "Hearing the sounds and judging that the three are audibly different (human check).",
+    "Double-click file:// opening (ES modules blocked by CORS).",
+    "Hand feel of the keyboard; the user plays separately.",
+    "Level 2 and 3 time-out paths (50 s / 45 s) were not waited out; automated tests only."
+  ]
+}

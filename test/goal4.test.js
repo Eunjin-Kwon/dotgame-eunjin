@@ -104,15 +104,15 @@ test('31: losing level 3 restarts level 3 with 12 dewdrops and 45 s and keeps th
   assert.equal(again.totalScore, SCORE_1 + SCORE_2);
 });
 
-test('clearing level 3 and pressing Enter goes to the title (goal-4 interim, 9장 수용 24)', () => {
+test('clearing level 3 and pressing Enter goes to the final screen (9장 수용 32)', () => {
   const cleared3 = clearLevel(startLevel3(), T_LEVEL3, LEVEL3_CLEAR_S);
   assert.equal(cleared3.phase, 'won');
   assert.equal(scoreOf(cleared3), levelScore(12, 40));
 
-  const back = enter(cleared3, T_TITLE, levels);
-  assert.equal(back.phase, 'title');
-  assert.equal(back.levelIndex, 0);
-  assert.equal(back.totalScore, 0);
+  const final = enter(cleared3, T_TITLE, levels);
+  assert.equal(final.phase, 'final');
+  assert.equal(final.levelIndex, 2);
+  assert.equal(final.totalScore, SCORE_1 + SCORE_2 + levelScore(12, 40));
 });
 
 test('createTitle shows level 1 data with the 60 s limit and 8 dewdrops', () => {

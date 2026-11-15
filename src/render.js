@@ -80,14 +80,29 @@ function drawCentered(ctx, lines) {
   ctx.textBaseline = 'alphabetic';
 }
 
-// Title shows the name and the start prompt only: no map, no firefly (O8).
-export function drawTitle(ctx, canvas) {
+// Title shows the name and the start prompt, plus the saved high score when there is one (O8).
+export function drawTitle(ctx, canvas, best) {
   ctx.fillStyle = PALETTE[0];
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  drawCentered(ctx, [
+  const lines = [
     [STRINGS.gameTitle, 28, 160],
     [STRINGS.titleStart, 16, 230],
-  ]);
+  ];
+  if (best !== null) lines.splice(1, 0, [STRINGS.highScore(best), 16, 200]);
+  drawCentered(ctx, lines);
+}
+
+// Final screen: total of all three levels, the saved high score when there is one, and the title prompt.
+export function drawFinal(ctx, canvas, world, best) {
+  ctx.fillStyle = PALETTE[0];
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const lines = [
+    [STRINGS.finalTitle, 28, 160],
+    [STRINGS.finalTotal(world.totalScore), 18, 210],
+  ];
+  if (best !== null) lines.push([STRINGS.highScore(best), 16, 250]);
+  lines.push([STRINGS.clearBack, 16, 290]);
+  drawCentered(ctx, lines);
 }
 
 // Clear and fail screens: a dark panel with the result text.
@@ -95,11 +110,13 @@ export function drawResult(ctx, canvas, world, score) {
   ctx.fillStyle = PALETTE[0];
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (world.phase === 'won') {
-    drawCentered(ctx, [
+    // Level 3 clear shows no prompt: Enter goes on to the final screen (3장, 7장).
+    const lines = [
       [STRINGS.clearTitle, 28, 160],
       [STRINGS.clearScore(score), 18, 210],
-      [world.levelIndex < 2 ? STRINGS.clearNext : STRINGS.clearBack, 16, 260],
-    ]);
+    ];
+    if (world.levelIndex < 2) lines.push([STRINGS.clearNext, 16, 260]);
+    drawCentered(ctx, lines);
     return;
   }
   const reason = world.reason === 'timeout' ? STRINGS.failTime : STRINGS.failSpider;
@@ -110,8 +127,9 @@ export function drawResult(ctx, canvas, world, score) {
 }
 
 // Draws one frame. Title and result screens replace the board; play draws the board and HUD.
-export function drawWorld(ctx, world, canvas, score) {
-  if (world.phase === 'title') return drawTitle(ctx, canvas);
+export function drawWorld(ctx, world, canvas, score, best) {
+  if (world.phase === 'title') return drawTitle(ctx, canvas, best);
+  if (world.phase === 'final') return drawFinal(ctx, canvas, world, best);
   if (world.phase === 'won' || world.phase === 'lost') return drawResult(ctx, canvas, world, score);
   drawLevel(ctx, world.level);
   drawDewdrops(ctx, world.dewdrops);

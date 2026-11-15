@@ -100,11 +100,11 @@ test('24: Enter on the level 1 clear screen starts level 2 with 10 dewdrops, 50 
   assert.deepEqual({ x: next.player.x, y: next.player.y }, { x: 4, y: 10 }, 'P of 5장 level 2 map');
 });
 
-// 9장 수용 24 (goal-4 interim): Enter on the level 3 clear screen returns to the title
-test('24: Enter on the level 3 clear screen returns to the title (goal-4 interim)', () => {
+// 9장 수용 24 (32 참조): Enter on the level 3 clear screen goes to the final screen
+test('24: Enter on the level 3 clear screen goes to the final screen (9장 수용 32)', () => {
   const won = { ...createWorld(levels[2], 0, 2), phase: 'won', collected: LEVEL_3_DEWDROPS };
-  const back = enter(won, 9000, levels);
-  assert.equal(back.phase, 'title');
+  const final = enter(won, 9000, levels);
+  assert.equal(final.phase, 'final');
 });
 
 // 9장 수용 25: after clear or fail, direction keys do nothing

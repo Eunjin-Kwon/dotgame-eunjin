@@ -1,0 +1,465 @@
+TAP version 13
+# Subtest: 9장 수용 9: the level starts with 8 dewdrops and 0 collected
+ok 1 - 9장 수용 9: the level starts with 8 dewdrops and 0 collected
+  ---
+  duration_ms: 0.589625
+  ...
+# Subtest: 9장 수용 10~11: entering a dewdrop cell removes it and adds 1; revisits add nothing
+ok 2 - 9장 수용 10~11: entering a dewdrop cell removes it and adds 1; revisits add nothing
+  ---
+  duration_ms: 0.230041
+  ...
+# Subtest: 9장 수용 12: the spider moves one tile every 300 ms
+ok 3 - 9장 수용 12: the spider moves one tile every 300 ms
+  ---
+  duration_ms: 0.306916
+  ...
+# Subtest: 9장 수용 12: the spider turns around at the wall (goes 12 tiles left, then back)
+ok 4 - 9장 수용 12: the spider turns around at the wall (goes 12 tiles left, then back)
+  ---
+  duration_ms: 0.154875
+  ...
+# Subtest: 9장 수용 13: the spider walks over a dewdrop without eating it
+ok 5 - 9장 수용 13: the spider walks over a dewdrop without eating it
+  ---
+  duration_ms: 0.082292
+  ...
+# Subtest: 9장 수용 14: firefly steps onto the spider cell -> stops at once (lost, spider)
+ok 6 - 9장 수용 14: firefly steps onto the spider cell -> stops at once (lost, spider)
+  ---
+  duration_ms: 0.063833
+  ...
+# Subtest: 9장 수용 14: the spider steps onto the firefly cell -> stops at once (lost, spider)
+ok 7 - 9장 수용 14: the spider steps onto the firefly cell -> stops at once (lost, spider)
+  ---
+  duration_ms: 0.055042
+  ...
+# Subtest: 9장 수용 15: the firefly and the spider swapping cells stops the run (lost, spider)
+ok 8 - 9장 수용 15: the firefly and the spider swapping cells stops the run (lost, spider)
+  ---
+  duration_ms: 0.056
+  ...
+# Subtest: the spider moving into the firefly while the firefly stands still also stops the run
+ok 9 - the spider moving into the firefly while the firefly stands still also stops the run
+  ---
+  duration_ms: 0.495417
+  ...
+# Subtest: 9장 수용 16: the timer counts 60 down by one integer second per second of play
+ok 10 - 9장 수용 16: the timer counts 60 down by one integer second per second of play
+  ---
+  duration_ms: 0.193167
+  ...
+# Subtest: 9장 수용 17: at 0 seconds the run stops (lost, timeout)
+ok 11 - 9장 수용 17: at 0 seconds the run stops (lost, timeout)
+  ---
+  duration_ms: 0.215208
+  ...
+# Subtest: a long frame gap removes every whole second that passed (5 s gap -> 5 s less)
+ok 12 - a long frame gap removes every whole second that passed (5 s gap -> 5 s less)
+  ---
+  duration_ms: 0.054833
+  ...
+# Subtest: a long frame gap re-anchors the spider and it moves no tile in that call
+ok 13 - a long frame gap re-anchors the spider and it moves no tile in that call
+  ---
+  duration_ms: 0.09175
+  ...
+# Subtest: O3: picking the last collected dewdrop on the same tick as a spider contact -> lost, count +1, score 0
+ok 14 - O3: picking the last collected dewdrop on the same tick as a spider contact -> lost, count +1, score 0
+  ---
+  duration_ms: 0.14425
+  ...
+# Subtest: O2: last dewdrop and timer reaching 0 on the same tick -> won (clear beats the timer)
+ok 15 - O2: last dewdrop and timer reaching 0 on the same tick -> won (clear beats the timer)
+  ---
+  duration_ms: 0.061125
+  ...
+# Subtest: 9장 수용 20 score: dewdrops x 100 + remaining integer seconds x 10 on clear, 0 on failure
+ok 16 - 9장 수용 20 score: dewdrops x 100 + remaining integer seconds x 10 on clear, 0 on failure
+  ---
+  duration_ms: 0.095083
+  ...
+# Subtest: 9장 수용 25 (goal-2 part): after a stop the run ignores later frames and keys
+ok 17 - 9장 수용 25 (goal-2 part): after a stop the run ignores later frames and keys
+  ---
+  duration_ms: 0.073625
+  ...
+# Subtest: O9: a tap pressed during the lock moves at unlock even if the key is released before it
+ok 18 - O9: a tap pressed during the lock moves at unlock even if the key is released before it
+  ---
+  duration_ms: 0.152292
+  ...
+# Subtest: a blocked tap does not lock the firefly (2장 막힌 입력)
+ok 19 - a blocked tap does not lock the firefly (2장 막힌 입력)
+  ---
+  duration_ms: 0.082166
+  ...
+# Subtest: 18: a new game is on the title screen and nothing moves or ticks there
+ok 20 - 18: a new game is on the title screen and nothing moves or ticks there
+  ---
+  duration_ms: 0.899958
+  ...
+# Subtest: 18: Enter on the title starts play at P and the 60 s timer starts then
+ok 21 - 18: Enter on the title starts play at P and the 60 s timer starts then
+  ---
+  duration_ms: 0.75625
+  ...
+# Subtest: 19: collecting the last dewdrop reaches the won (clear) screen
+ok 22 - 19: collecting the last dewdrop reaches the won (clear) screen
+  ---
+  duration_ms: 0.158875
+  ...
+# Subtest: 19: the level 1 map holds exactly 8 dewdrops to clear
+ok 23 - 19: the level 1 map holds exactly 8 dewdrops to clear
+  ---
+  duration_ms: 0.062292
+  ...
+# Subtest: 20: clear score is dewdrops x 100 + remaining integer seconds x 10
+ok 24 - 20: clear score is dewdrops x 100 + remaining integer seconds x 10
+  ---
+  duration_ms: 0.065292
+  ...
+# Subtest: 21: caught by the spider -> lost with reason spider (fail screen text is 거미에게 잡혔어요)
+ok 25 - 21: caught by the spider -> lost with reason spider (fail screen text is 거미에게 잡혔어요)
+  ---
+  duration_ms: 0.236875
+  ...
+# Subtest: 22: time reaches 0 -> lost with reason timeout (fail screen text is 밤이 끝났어요)
+ok 26 - 22: time reaches 0 -> lost with reason timeout (fail screen text is 밤이 끝났어요)
+  ---
+  duration_ms: 0.162416
+  ...
+# Subtest: 23: Enter on a fail screen restarts the same level: 8 dewdrops, 60 s, P start
+ok 27 - 23: Enter on a fail screen restarts the same level: 8 dewdrops, 60 s, P start
+  ---
+  duration_ms: 0.181125
+  ...
+# Subtest: 24: Enter on the level 1 clear screen starts level 2 with 10 dewdrops, 50 s, and the level 1 score
+ok 28 - 24: Enter on the level 1 clear screen starts level 2 with 10 dewdrops, 50 s, and the level 1 score
+  ---
+  duration_ms: 0.35375
+  ...
+# Subtest: 24: Enter on the level 3 clear screen goes to the final screen (9장 수용 32)
+ok 29 - 24: Enter on the level 3 clear screen goes to the final screen (9장 수용 32)
+  ---
+  duration_ms: 0.274125
+  ...
+# Subtest: 25: directional keys are ignored on the clear and fail screens
+ok 30 - 25: directional keys are ignored on the clear and fail screens
+  ---
+  duration_ms: 0.7285
+  ...
+# Subtest: Enter during play does nothing
+ok 31 - Enter during play does nothing
+  ---
+  duration_ms: 0.146417
+  ...
+# Subtest: 27: clear level 1, Enter -> level 2 with 10 dewdrops and 50 s
+ok 32 - 27: clear level 1, Enter -> level 2 with 10 dewdrops and 50 s
+  ---
+  duration_ms: 0.912125
+  ...
+# Subtest: 29: clear level 2, Enter -> level 3 with 12 dewdrops and 45 s
+ok 33 - 29: clear level 2, Enter -> level 3 with 12 dewdrops and 45 s
+  ---
+  duration_ms: 0.117334
+  ...
+# Subtest: 31: losing level 2 restarts level 2 with 10 dewdrops and 50 s and keeps the level 1 score
+ok 34 - 31: losing level 2 restarts level 2 with 10 dewdrops and 50 s and keeps the level 1 score
+  ---
+  duration_ms: 0.163459
+  ...
+# Subtest: 31: losing level 3 restarts level 3 with 12 dewdrops and 45 s and keeps the earlier scores
+ok 35 - 31: losing level 3 restarts level 3 with 12 dewdrops and 45 s and keeps the earlier scores
+  ---
+  duration_ms: 0.143459
+  ...
+# Subtest: clearing level 3 and pressing Enter goes to the final screen (9장 수용 32)
+ok 36 - clearing level 3 and pressing Enter goes to the final screen (9장 수용 32)
+  ---
+  duration_ms: 0.129125
+  ...
+# Subtest: createTitle shows level 1 data with the 60 s limit and 8 dewdrops
+ok 37 - createTitle shows level 1 data with the 60 s limit and 8 dewdrops
+  ---
+  duration_ms: 0.0525
+  ...
+# Subtest: 32: clearing level 3 and pressing Enter shows the final screen with the total
+ok 38 - 32: clearing level 3 and pressing Enter shows the final screen with the total
+  ---
+  duration_ms: 775.7955
+  ...
+# Subtest: 33: the total equals the sum of the three level scores (8/10/12 dewdrops, remaining seconds)
+ok 39 - 33: the total equals the sum of the three level scores (8/10/12 dewdrops, remaining seconds)
+  ---
+  duration_ms: 0.437625
+  ...
+# Subtest: 33: a lost level scores 0 and the total does not change on loss or re-clear (no double count)
+ok 40 - 33: a lost level scores 0 and the total does not change on loss or re-clear (no double count)
+  ---
+  duration_ms: 0.374709
+  ...
+# Subtest: 34: saveHighScore stores the total when no best is stored, under the exact key
+ok 41 - 34: saveHighScore stores the total when no best is stored, under the exact key
+  ---
+  duration_ms: 0.145417
+  ...
+# Subtest: 34: saveHighScore replaces the best when the total is greater
+ok 42 - 34: saveHighScore replaces the best when the total is greater
+  ---
+  duration_ms: 0.070291
+  ...
+# Subtest: 34: saveHighScore keeps the larger stored best when the total is smaller
+ok 43 - 34: saveHighScore keeps the larger stored best when the total is smaller
+  ---
+  duration_ms: 0.039667
+  ...
+# Subtest: 34: loadHighScore returns the stored integer, and null when nothing is stored
+ok 44 - 34: loadHighScore returns the stored integer, and null when nothing is stored
+  ---
+  duration_ms: 0.043667
+  ...
+# Subtest: 35: a dewdrop pickup reports dew; the clear reports clear; a loss reports fail
+ok 45 - 35: a dewdrop pickup reports dew; the clear reports clear; a loss reports fail
+  ---
+  duration_ms: 0.085417
+  ...
+# Subtest: 35: no sound event on the title screen; events do not carry over to the next call
+ok 46 - 35: no sound event on the title screen; events do not carry over to the next call
+  ---
+  duration_ms: 0.126917
+  ...
+# Subtest: 35: each sound has its own tones (dew 880 Hz; clear 523/659/784 Hz; fail 220 -> 110 Hz sawtooth)
+ok 47 - 35: each sound has its own tones (dew 880 Hz; clear 523/659/784 Hz; fail 220 -> 110 Hz sawtooth)
+  ---
+  duration_ms: 0.22275
+  ...
+# Subtest: 36: Enter on the final screen goes to the title with total 0; the next run starts from 0
+ok 48 - 36: Enter on the final screen goes to the title with total 0; the next run starts from 0
+  ---
+  duration_ms: 0.482958
+  ...
+# Subtest: 37: no audio context (throws, or null) -> no error and no console output
+ok 49 - 37: no audio context (throws, or null) -> no error and no console output
+  ---
+  duration_ms: 0.143125
+  ...
+# Subtest: 37: a context that fails at play time -> no error and no console output
+ok 50 - 37: a context that fails at play time -> no error and no console output
+  ---
+  duration_ms: 0.0695
+  ...
+# Subtest: 37: unreadable or unwritable storage -> loadHighScore is null and saveHighScore does not throw
+ok 51 - 37: unreadable or unwritable storage -> loadHighScore is null and saveHighScore does not throw
+  ---
+  duration_ms: 0.095375
+  ...
+# Subtest: 37: storage that can read but not write -> saving does not throw
+ok 52 - 37: storage that can read but not write -> saving does not throw
+  ---
+  duration_ms: 0.048917
+  ...
+# Subtest: a character outside \# . P is rejected, not treated as floor
+ok 53 - a character outside \# . P is rejected, not treated as floor
+  ---
+  duration_ms: 0.712708
+  ...
+# Subtest: level 1 rows match the 5장 code block character for character
+ok 54 - level 1 rows match the 5장 code block character for character
+  ---
+  duration_ms: 0.536792
+  ...
+# Subtest: o and S are accepted as floor cells; a level without S is rejected
+ok 55 - o and S are accepted as floor cells; a level without S is rejected
+  ---
+  duration_ms: 0.086
+  ...
+# Subtest: level 1 has 8 dewdrops, each on a floor cell, and one spider start
+ok 56 - level 1 has 8 dewdrops, each on a floor cell, and one spider start
+  ---
+  duration_ms: 0.070917
+  ...
+# Subtest: an empty level is rejected
+ok 57 - an empty level is rejected
+  ---
+  duration_ms: 0.052958
+  ...
+# Subtest: level 1 is 16 x 12 tiles (5장, 2장 화면 512x384 / 32 px)
+ok 58 - level 1 is 16 x 12 tiles (5장, 2장 화면 512x384 / 32 px)
+  ---
+  duration_ms: 0.043083
+  ...
+# Subtest: level 1 border is all walls (5장: 가장자리는 벽)
+ok 59 - level 1 border is all walls (5장: 가장자리는 벽)
+  ---
+  duration_ms: 0.124875
+  ...
+# Subtest: level 1 has 11 interior walls (5장)
+ok 60 - level 1 has 11 interior walls (5장)
+  ---
+  duration_ms: 0.05725
+  ...
+# Subtest: level 1 has exactly one start P on a floor cell at (2, 10) (5장)
+ok 61 - level 1 has exactly one start P on a floor cell at (2, 10) (5장)
+  ---
+  duration_ms: 0.14675
+  ...
+# Subtest: palette is the 8 hex values of 6장 in order
+ok 62 - palette is the 8 hex values of 6장 in order
+  ---
+  duration_ms: 0.507042
+  ...
+# Subtest: firefly sprite is 8 px square, scaled to one 32 px tile (2장, 4장)
+ok 63 - firefly sprite is 8 px square, scaled to one 32 px tile (2장, 4장)
+  ---
+  duration_ms: 0.192917
+  ...
+# Subtest: firefly sprite uses only R1 palette indices 2-4 (6장 반딧불이 색)
+ok 64 - firefly sprite uses only R1 palette indices 2-4 (6장 반딧불이 색)
+  ---
+  duration_ms: 0.265084
+  ...
+# Subtest: LEVELS holds the 5장 time limits 60/50/45 and dewdrop counts 8/10/12
+ok 65 - LEVELS holds the 5장 time limits 60/50/45 and dewdrop counts 8/10/12
+  ---
+  duration_ms: 0.3185
+  ...
+# Subtest: level 2: 5장 map, 16 x 12 tiles, 10 dewdrops, one P and one S, 50 s (5장)
+ok 66 - level 2: 5장 map, 16 x 12 tiles, 10 dewdrops, one P and one S, 50 s (5장)
+  ---
+  duration_ms: 0.417208
+  ...
+# Subtest: level 3: 5장 map, 16 x 12 tiles, 12 dewdrops, one P and one S, 45 s (5장)
+ok 67 - level 3: 5장 map, 16 x 12 tiles, 12 dewdrops, one P and one S, 45 s (5장)
+  ---
+  duration_ms: 0.352833
+  ...
+# Subtest: lock constant matches 2장 (150 ms)
+ok 68 - lock constant matches 2장 (150 ms)
+  ---
+  duration_ms: 0.603916
+  ...
+# Subtest: V-1: each direction moves exactly one cell
+ok 69 - V-1: each direction moves exactly one cell
+  ---
+  duration_ms: 0.119709
+  ...
+# Subtest: V-2: a direction outside up/down/left/right leaves coordinates unchanged
+ok 70 - V-2: a direction outside up/down/left/right leaves coordinates unchanged
+  ---
+  duration_ms: 0.064667
+  ...
+# Subtest: V-3: moving off the 16x12 grid keeps position and lockedUntil
+ok 71 - V-3: moving off the 16x12 grid keeps position and lockedUntil
+  ---
+  duration_ms: 0.419917
+  ...
+# Subtest: V-4: moving into a blocked cell keeps state, and a valid input right after is not locked
+ok 72 - V-4: moving into a blocked cell keeps state, and a valid input right after is not locked
+  ---
+  duration_ms: 0.070834
+  ...
+# Subtest: V-5: a move locks input for 150 ms; the unlock instant allows exactly one more move
+ok 73 - V-5: a move locks input for 150 ms; the unlock instant allows exactly one more move
+  ---
+  duration_ms: 0.060833
+  ...
+# Subtest: simultaneous keys: the last pressed held key is the active direction
+ok 74 - simultaneous keys: the last pressed held key is the active direction
+  ---
+  duration_ms: 0.080792
+  ...
+# Subtest: pressing an already held direction makes it the last one and does not duplicate it
+ok 75 - pressing an already held direction makes it the last one and does not duplicate it
+  ---
+  duration_ms: 0.146542
+  ...
+# Subtest: an invalid direction changes neither the held list nor the position
+ok 76 - an invalid direction changes neither the held list nor the position
+  ---
+  duration_ms: 0.122167
+  ...
+# Subtest: V-6: src/logic.js does not reference canvas, document, or window
+ok 77 - V-6: src/logic.js does not reference canvas, document, or window
+  ---
+  duration_ms: 0.309375
+  ...
+# Subtest: tap burst: many presses inside one 150 ms lock move exactly one cell
+ok 78 - tap burst: many presses inside one 150 ms lock move exactly one cell
+  ---
+  duration_ms: 1.305541
+  ...
+# Subtest: hold: one cell every 150 ms while the key stays pressed
+ok 79 - hold: one cell every 150 ms while the key stays pressed
+  ---
+  duration_ms: 0.147583
+  ...
+# Subtest: blocked presses do not start a lock: a valid press right after moves at once
+ok 80 - blocked presses do not start a lock: a valid press right after moves at once
+  ---
+  duration_ms: 0.192417
+  ...
+# Subtest: invalid direction values never move the firefly
+ok 81 - invalid direction values never move the firefly
+  ---
+  duration_ms: 0.262792
+  ...
+# Subtest: releasing the last pressed key resumes the still-held earlier key, and that key moves the firefly
+ok 82 - releasing the last pressed key resumes the still-held earlier key, and that key moves the firefly
+  ---
+  duration_ms: 0.122375
+  ...
+# Subtest: when the last pressed key is blocked, the firefly stays even if an earlier key is held
+ok 83 - when the last pressed key is blocked, the firefly stays even if an earlier key is held
+  ---
+  duration_ms: 0.349959
+  ...
+# Subtest: malformed level data is rejected: missing start, two starts, ragged rows, bad characters
+ok 84 - malformed level data is rejected: missing start, two starts, ragged rows, bad characters
+  ---
+  duration_ms: 0.264792
+  ...
+# Subtest: startup: title and background come from strings.js and the palette; no firefly on title
+ok 85 - startup: title and background come from strings.js and the palette; no firefly on title
+  ---
+  duration_ms: 8.309625
+  ...
+# Subtest: Enter starts play at P (2,10); arrows do nothing on the title screen
+ok 86 - Enter starts play at P (2,10); arrows do nothing on the title screen
+  ---
+  duration_ms: 2.09275
+  ...
+# Subtest: keydown moves one cell at once; a held key moves again after 150 ms
+ok 87 - keydown moves one cell at once; a held key moves again after 150 ms
+  ---
+  duration_ms: 1.937709
+  ...
+# Subtest: keyup stops the held move
+ok 88 - keyup stops the held move
+  ---
+  duration_ms: 1.47575
+  ...
+# Subtest: a non-arrow, non-Enter key does nothing during play
+ok 89 - a non-arrow, non-Enter key does nothing during play
+  ---
+  duration_ms: 0.992792
+  ...
+# Subtest: blur clears held keys, so no move continues after focus is lost
+ok 90 - blur clears held keys, so no move continues after focus is lost
+  ---
+  duration_ms: 1.484958
+  ...
+# Subtest: a key pressed during the lock moves at unlock if still held; releasing it stops the move
+ok 91 - a key pressed during the lock moves at unlock if still held; releasing it stops the move
+  ---
+  duration_ms: 1.472333
+  ...
+1..91
+# tests 91
+# suites 0
+# pass 91
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 878.562542

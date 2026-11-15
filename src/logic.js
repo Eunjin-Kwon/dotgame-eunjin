@@ -50,12 +50,13 @@ export function requestMove(state, dir, nowMs, grid) {
 
 // ---- goal-2 world -------------------------------------------------------
 // world = {
-//   phase: 'title' | 'play' | 'won' | 'lost',
+//   phase: 'title' | 'play' | 'won' | 'lost' | 'final',
 //   reason: null | 'spider' | 'timeout',
 //   level, levelIndex (0-based), totalScore (sum of cleared levels before this one),
 //   player, spider, dewdrops (remaining cells), collected, total,
 //   timeLeft (integer seconds), nextSecondAt,
-//   held (direction names in press order), tap (one buffered press or null)
+//   held (direction names in press order), tap (one buffered press or null),
+//   events (strings produced by the one call that returned this world; see advance and enter)
 // }
 // Every rule that depends on time takes nowMs from the frame; nothing reads a clock here.
 
@@ -84,6 +85,7 @@ export function createWorld(level, nowMs, levelIndex = 0, totalScore = 0) {
     nextSecondAt: nowMs + SECOND_MS,
     held: [],
     tap: null,
+    events: [],
   };
 }
 
@@ -93,29 +95,38 @@ export function pressKey(world, dir) {
   if (world.phase !== 'play') return world;
   const held = pressDirection(world.held, dir);
   if (held === world.held) return world;
-  return { ...world, held, tap: dir };
+  return { ...world, held, tap: dir, events: [] };
 }
 
 export function releaseKey(world, dir) {
   if (world.phase !== 'play') return world;
-  return { ...world, held: releaseDirection(world.held, dir) };
+  return { ...world, held: releaseDirection(world.held, dir), events: [] };
 }
 
 export function clearKeys(world) {
   if (world.phase !== 'play') return world;
-  return { ...world, held: [], tap: null };
+  return { ...world, held: [], tap: null, events: [] };
 }
 
+// Ending pushes 'clear' for a win and 'fail' for a loss.
 function ended(world, reason) {
-  return { ...world, phase: reason === 'won' ? 'won' : 'lost', reason: reason === 'won' ? null : reason, held: [], tap: null };
+  const won = reason === 'won';
+  return {
+    ...world,
+    phase: won ? 'won' : 'lost',
+    reason: won ? null : reason,
+    held: [],
+    tap: null,
+    events: [...world.events, won ? 'clear' : 'fail'],
+  };
 }
 
-// Pickup: the dewdrop on the firefly cell is removed and counted.
+// Pickup: the dewdrop on the firefly cell is removed and counted, and pushes 'dew'.
 function pickUp(world) {
   const index = world.dewdrops.findIndex((d) => sameCell(d, world.player));
   if (index < 0) return world;
   const dewdrops = world.dewdrops.filter((_, i) => i !== index);
-  return { ...world, dewdrops, collected: world.collected + 1 };
+  return { ...world, dewdrops, collected: world.collected + 1, events: [...world.events, 'dew'] };
 }
 
 // Spider: one tile per SPIDER_STEP_MS. A long delay re-anchors the clock and moves nothing.
@@ -160,7 +171,8 @@ function tickTimer(world, nowMs) {
 export function advance(world, nowMs) {
   if (world.phase !== 'play') return world;
 
-  let next = world;
+  // Each call starts a fresh events list; only this call's events are kept.
+  let next = { ...world, events: [] };
   const dir = world.tap ?? activeDirection(world.held);
   if (dir) {
     const moved = requestMove(world.player, dir, nowMs, world.level);
@@ -193,7 +205,8 @@ export function createTitle(levels) {
 // Enter moves between screens. levels = the ordered level list (see src/levels.js).
 // title -> start level 1. lost -> restart the same level, keep totalScore (9장 수용 23, 31).
 // won on a non-last level -> start the next level, add this level's score (수용 27, 29).
-// won on the last level -> title (goal-4 interim; the final screen is goal-5, 수용 24, 32).
+// won on the last level -> final screen: adds this level's score, keeps levelIndex, pushes 'final' (수용 32, 33).
+// final -> title (totalScore restarts at 0, 수용 36).
 // Enter during play does nothing.
 export function enter(world, nowMs, levels) {
   if (world.phase === 'title') return createWorld(levels[0], nowMs, 0, 0);
@@ -203,8 +216,14 @@ export function enter(world, nowMs, levels) {
       const nextIndex = world.levelIndex + 1;
       return createWorld(levels[nextIndex], nowMs, nextIndex, world.totalScore + scoreOf(world));
     }
-    return createTitle(levels);
+    return {
+      ...world,
+      phase: 'final',
+      totalScore: world.totalScore + scoreOf(world),
+      events: ['final'],
+    };
   }
+  if (world.phase === 'final') return createTitle(levels);
   return world;
 }
 
