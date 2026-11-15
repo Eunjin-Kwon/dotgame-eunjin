@@ -1,0 +1,22 @@
+{
+  "executedBy": "Claude planning session (built-in browser pane, not gjc), 2026-11-15",
+  "target": "http://127.0.0.1:8765/index.html (python3 -m http.server, working tree after goal-4 implementation, before the goal-4 commit; HEAD ac80047 design-v3)",
+  "method": "KeyboardEvent dispatched to window; tiles read from canvas pixels (wall #4A5A4C, floor #1E2B24, dewdrop #7FD8FF, spider #8B3A62, firefly #FFE66D). A script played each level through real moves (BFS path avoiding the spider row neighbourhood), so the clear path was exercised by actual stepping on every dewdrop, not by emptying a list.",
+  "consoleErrors": 0,
+  "gameFlow": {
+    "title": "map and firefly not drawn, text only",
+    "level1": {"map_match_192_tiles": true, "dewdrops": 8, "start": [2, 10], "spiderRowY": 6, "cleared": true},
+    "level1_clear_enter": "Enter starts level 2",
+    "level2_acceptance_27_28": {"map_match_tiles_with_5장_level2": true, "dewdrops": 10, "start": [4, 10], "spiderRowY": 6, "spiders": 1, "hud": "이슬 0/10, 레벨 2/3, 시간 50 (read from 05-level2-start.png)", "cleared": true},
+    "level3_acceptance_29_30": {"map_match_tiles_with_5장_level3": true, "dewdrops": 12, "start": [2, 10], "spiderRowY": 3, "spiders": 1, "hud": "이슬 0/12, 레벨 3/3, 시간 45 (read from 07-level3-start.png)"},
+    "level3_caught_then_enter_acceptance_31": {"fail_screen": true, "restart_same_level": {"map_match": true, "dewdrops": 12, "start": [2, 10], "spiderRowY": 3}},
+    "level3_cleared": {"clear_screen_score": 1530, "score_check": "12 x 100 + 33 s x 10 = 1530", "enter_after_clear": "goes to a text-only screen (the documented goal-4 intermediate state of 수용 24; the final screen arrives in goal-5)"}
+  },
+  "screenshots": ["05-level2-start.png", "06-level2-clear.png", "07-level3-start.png", "08-level3-fail.png", "09-level3-clear.png", "10-after-level3-enter.png"],
+  "notCovered": [
+    "Score carry-over across levels (수용 31 second half, 33, 36) belongs to goal-5 and is not shown by any screen yet.",
+    "Double-click file:// opening (ES modules blocked by CORS).",
+    "Hand feel of the keyboard; the user played separately.",
+    "Level 2 and 3 timeout path (50 s / 45 s) was not waited out; covered by automated tests only."
+  ]
+}

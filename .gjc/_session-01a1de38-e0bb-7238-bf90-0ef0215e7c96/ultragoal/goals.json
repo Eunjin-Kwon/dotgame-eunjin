@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "brief": "R3 승인 계획(stage-04-final.md, 2026-11-15). 공통 제약: 테스트 명령은 node --test(폴더 인자 없음). 맵은 R3_decisions.md C·D절 블록을 글자 단위로 복사한다. 제품 코드는 design-v3 커밋 전에 건드리지 않는다. .gjc/state/sdk/ 커밋 금지. 사람이 맞다고 답하기 전에는 커밋하지 않는다.\n\n@goal: S0 design-v3 (GAME_DESIGN.md v3)\nGAME_DESIGN.md 한 파일만 v3로 쓴다. 5장 레벨 2·3 맵은 R3_decisions.md C절·D절 코드 블록을 글자 단위로 그대로 옮기고 일치를 확인해 보고한다. 7장, 8장(테스트 명령 node --test), 9장 수용 27~37, 10장 전부, 승인 계획의 충돌 표 14행을 반영한다. 완료 조건: 사람이 v3를 열어 맞다고 답한다. 그 전에는 커밋하지 않는다.\n\n@goal: goal-4 레벨 2·3\ndesign-v3 커밋 뒤에만 시작. 레벨 2·3 데이터, 레벨별 시간 60/50/45, 레벨 전환(클리어 Enter → 다음 레벨), 실패 시 같은 레벨 재시작, HUD 레벨 표시. 사람 브라우저 확인 수용 27~31. 품질 게이트 1회, 40분 제한.\n\n@goal: goal-5 효과음·최고 점수·최종 화면\ngoal-4 뒤에만 시작. 효과음 3개(Web Audio), 최고 점수 localStorage 키 dotgame-eunjin-highscore, 최종 화면과 총점. 사람 브라우저 확인 수용 32~37. 품질 게이트 1회, 40분 제한.",
+  "gjcGoalMode": "aggregate",
+  "gjcObjective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+  "goals": [
+    {
+      "id": "G001",
+      "title": "S0 design-v3 (GAME_DESIGN.md v3)",
+      "objective": "GAME_DESIGN.md 한 파일만 v3로 쓴다. 5장 레벨 2·3 맵은 R3_decisions.md C절·D절 코드 블록을 글자 단위로 그대로 옮기고 일치를 확인해 보고한다. 7장, 8장(테스트 명령 node --test), 9장 수용 27~37, 10장 전부, 승인 계획의 충돌 표 14행을 반영한다. 완료 조건: 사람이 v3를 열어 맞다고 답한다. 그 전에는 커밋하지 않는다.",
+      "status": "blocked",
+      "createdAt": "2026-11-15T09:03:55.107Z",
+      "updatedAt": "2026-11-15T09:24:45.427Z",
+      "startedAt": "2026-11-15T09:03:59.656Z",
+      "evidence": "Design-v3 committed as ac80047 after user approval (맞다). Complete gate not passed: completion review (agent 12-G001CompletionReview) gave architecture WATCH and product WATCH, blocking findings 0, non-blocking: (1) 최고 점수 m shown unconditionally in 3장/7장 vs hidden-when-storage-fails in 8장; (2) totalScore accumulation owner and failure rule not stated in 8장/31; (3) goal-4 interim note in 9장 24 vs 3장 flow without caveat. Code CLEAR, recommendation APPROVE. Verification run: node --test 66/66 pass (node vv20.20.2). User approved text as-is; these are wording items, decision pending with user."
+    },
+    {
+      "id": "G002",
+      "title": "goal-4 레벨 2·3",
+      "objective": "design-v3 커밋 뒤에만 시작. 레벨 2·3 데이터, 레벨별 시간 60/50/45, 레벨 전환(클리어 Enter → 다음 레벨), 실패 시 같은 레벨 재시작, HUD 레벨 표시. 사람 브라우저 확인 수용 27~31. 품질 게이트 1회, 40분 제한.",
+      "status": "blocked",
+      "createdAt": "2026-11-15T09:03:55.107Z",
+      "updatedAt": "2026-11-15T09:29:00.939Z",
+      "evidence": "goal-4 implementation in working tree, not committed: src/levels.js, src/logic.js, src/render.js, src/strings.js, src/main.js; tests test/goal2.test.js, test/goal3.test.js, test/level.test.js, test/goal4.test.js. node --test 76/76 pass. Awaiting user browser check of acceptance 27~31 and commit approval."
+    },
+    {
+      "id": "G003",
+      "title": "goal-5 효과음·최고 점수·최종 화면",
+      "objective": "goal-4 뒤에만 시작. 효과음 3개(Web Audio), 최고 점수 localStorage 키 dotgame-eunjin-highscore, 최종 화면과 총점. 사람 브라우저 확인 수용 32~37. 품질 게이트 1회, 40분 제한.",
+      "status": "blocked",
+      "createdAt": "2026-11-15T09:03:55.107Z",
+      "updatedAt": "2026-11-15T09:13:29.563Z",
+      "evidence": "goal-5 waits for goal-4, which waits for design-v3 approval (맞다) and commit. Not started."
+    }
+  ],
+  "createdAt": "2026-11-15T09:03:55.107Z",
+  "updatedAt": "2026-11-15T09:29:00.939Z",
+  "repositoryBinding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/eunjinkwon/dev/dotgame-eunjin",
+    "commonDir": "/Users/eunjinkwon/dev/dotgame-eunjin/.git",
+    "displayPath": "/Users/eunjinkwon/dev/dotgame-eunjin",
+    "head": "15ce3e1cdb7be566cc652a6c809eb3ca9f36c00c",
+    "branch": "main"
+  },
+  "state_revision": 7
+}
