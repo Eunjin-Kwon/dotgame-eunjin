@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { LEVEL_1_ROWS, parseLevel } from '../src/levels.js';
+import { LEVELS, LEVEL_1_ROWS, parseLevel } from '../src/levels.js';
 import { PALETTE, FIREFLY_SPRITE, SPRITE_SCALE, TILE_PX } from '../src/sprites.js';
 
 const level = parseLevel(LEVEL_1_ROWS);
@@ -104,3 +104,54 @@ test('firefly sprite uses only R1 palette indices 2-4 (6장 반딧불이 색)', 
     }
   }
 });
+
+// 5장 레벨별 값 표 (확정): 제한 시간 60/50/45초, 이슬방울 8/10/12개, 거미 1마리.
+// 시작 P와 거미 S 좌표는 5장 맵 그림에서 읽은 값이다.
+const DESIGN = readFileSync(new URL('../GAME_DESIGN.md', import.meta.url), 'utf8');
+const LEVEL_TABLE = [
+  { heading: '### 레벨 1', timeLimitS: 60, dewdrops: 8 },
+  { heading: '### 레벨 2', timeLimitS: 50, dewdrops: 10, start: { x: 4, y: 10 }, spider: { x: 7, y: 6 } },
+  { heading: '### 레벨 3', timeLimitS: 45, dewdrops: 12, start: { x: 2, y: 10 }, spider: { x: 5, y: 3 } },
+];
+
+// The 5장 code block under a level heading, read from GAME_DESIGN.md (not copied from src).
+function designMap(heading) {
+  const section = DESIGN.slice(DESIGN.indexOf(heading));
+  return section.match(/```\n([\s\S]*?)```/)[1].split('\n').filter((line) => line.length > 0);
+}
+
+test('LEVELS holds the 5장 time limits 60/50/45 and dewdrop counts 8/10/12', () => {
+  const parsed = LEVELS.map((e) => parseLevel(e.rows, e.timeLimitS));
+  assert.deepEqual(parsed.map((l) => l.timeLimitS), [60, 50, 45]);
+  assert.deepEqual(parsed.map((l) => l.dewdrops.length), [8, 10, 12]);
+});
+
+for (const index of [1, 2]) {
+  const spec = LEVEL_TABLE[index];
+  test(`level ${index + 1}: 5장 map, 16 x 12 tiles, ${spec.dewdrops} dewdrops, one P and one S, ${spec.timeLimitS} s (5장)`, () => {
+    const block = designMap(spec.heading);
+    assert.equal(block.length, 12);
+    assert.deepEqual(LEVELS[index].rows, block);
+
+    const text = block.join('');
+    assert.equal(text.split('P').length - 1, 1, 'one P');
+    assert.equal(text.split('S').length - 1, 1, 'one S');
+    assert.equal(text.split('o').length - 1, spec.dewdrops, 'dewdrops in the design map');
+
+    const parsed = parseLevel(LEVELS[index].rows, LEVELS[index].timeLimitS);
+    assert.equal(parsed.width, 16);
+    assert.equal(parsed.height, 12);
+    assert.equal(parsed.timeLimitS, spec.timeLimitS);
+    assert.equal(parsed.dewdrops.length, spec.dewdrops);
+    assert.deepEqual(parsed.start, spec.start);
+    assert.deepEqual(parsed.spider, spec.spider);
+    for (let x = 0; x < parsed.width; x++) {
+      assert.equal(parsed.blocked(x, 0), true, `top ${x}`);
+      assert.equal(parsed.blocked(x, parsed.height - 1), true, `bottom ${x}`);
+    }
+    for (let y = 0; y < parsed.height; y++) {
+      assert.equal(parsed.blocked(0, y), true, `left ${y}`);
+      assert.equal(parsed.blocked(parsed.width - 1, y), true, `right ${y}`);
+    }
+  });
+}

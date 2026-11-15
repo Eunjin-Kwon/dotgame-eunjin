@@ -7,11 +7,11 @@ import { LEVEL_1_ROWS, parseLevel } from '../src/levels.js';
 
 const DEWDROPS = 8; // 2장/9장: 이슬방울 8개
 const SPIDER_MS = 300; // 2장: 거미 300 ms마다 한 칸
-const TIME_S = 60; // 2장: 제한 시간 60초
+const TIME_S = 60; // 5장 표: 레벨 1 제한 시간 60초
 const DEW_PTS = 100; // 2장 점수: 이슬방울 1개 100점
 const SEC_PTS = 10; // 2장 점수: 남은 정수 초 1초당 10점
 
-const level = parseLevel(LEVEL_1_ROWS);
+const level = parseLevel(LEVEL_1_ROWS, TIME_S);
 
 // Press one direction, run one frame at t, then release it (a tap with no hold).
 function tap(world, dir, t) {
@@ -21,7 +21,8 @@ function tap(world, dir, t) {
 }
 
 // Small level helper: rows must be rectangular; P and S are required by parseLevel.
-const small = (rows) => parseLevel(rows);
+// The time limit is the level 1 value (60 s), so timer behavior matches the level 1 contract.
+const small = (rows) => parseLevel(rows, TIME_S);
 
 test('9장 수용 9: the level starts with 8 dewdrops and 0 collected', () => {
   const w = createWorld(level, 0);

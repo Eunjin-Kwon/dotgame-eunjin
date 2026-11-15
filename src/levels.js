@@ -16,10 +16,47 @@ export const LEVEL_1_ROWS = [
   '################',
 ];
 
+export const LEVEL_2_ROWS = [
+  '################',
+  '#o............o#',
+  '#.##.#.##.#.##.#',
+  '#......o.......#',
+  '#.#..o....o..#.#',
+  '#.#..........#.#',
+  '#......S.......#',
+  '#.#..........#.#',
+  '#.#..o....o..#.#',
+  '#.......o......#',
+  '#o..P.......o..#',
+  '################',
+];
+
+export const LEVEL_3_ROWS = [
+  '################',
+  '#o...#....#...o#',
+  '#.##.#.##.#.##.#',
+  '#....S........o#',
+  '#.##.#.##.#.##.#',
+  '#o..o........o.#',
+  '#.##.#.##.#.##.#',
+  '#....o.........#',
+  '#.##.#.##.#.##.#',
+  '#o.....o......o#',
+  '#.P.....o....o.#',
+  '################',
+];
+
+// Level order and per-level values (GAME_DESIGN.md 5장 레벨별 값).
+export const LEVELS = [
+  { rows: LEVEL_1_ROWS, timeLimitS: 60 },
+  { rows: LEVEL_2_ROWS, timeLimitS: 50 },
+  { rows: LEVEL_3_ROWS, timeLimitS: 45 },
+];
+
 const LEVEL_CHARS = new Set(['#', '.', 'P', 'o', 'S']);
 
 // Turns rows of level characters into the grid shape used by src/logic.js.
-export function parseLevel(rows) {
+export function parseLevel(rows, timeLimitS) {
   if (rows.length === 0) throw new Error('empty level');
   const height = rows.length;
   const width = rows[0].length;
@@ -50,6 +87,7 @@ export function parseLevel(rows) {
     start,
     spider,
     dewdrops,
+    timeLimitS,
     rows,
     blocked: (x, y) => rows[y][x] === '#',
   };

@@ -61,6 +61,8 @@ export function drawHud(ctx, world) {
   ctx.fillText(STRINGS.hudDew(world.collected, world.total), 8, 22);
   ctx.textAlign = 'right';
   ctx.fillText(STRINGS.hudTime(world.timeLeft), 504, 22);
+  ctx.textAlign = 'center';
+  ctx.fillText(STRINGS.hudLevel(world.levelIndex + 1), 256, 22);
   ctx.textAlign = 'left';
 }
 
@@ -96,7 +98,7 @@ export function drawResult(ctx, canvas, world, score) {
     drawCentered(ctx, [
       [STRINGS.clearTitle, 28, 160],
       [STRINGS.clearScore(score), 18, 210],
-      [STRINGS.clearBack, 16, 260],
+      [world.levelIndex < 2 ? STRINGS.clearNext : STRINGS.clearBack, 16, 260],
     ]);
     return;
   }

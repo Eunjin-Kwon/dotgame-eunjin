@@ -4,7 +4,6 @@
 export const MOVE_LOCK_MS = 150;
 export const SPIDER_STEP_MS = 300;
 export const SECOND_MS = 1000;
-export const TIME_LIMIT_S = 60;
 export const DEWDROP_POINTS = 100;
 export const SECOND_POINTS = 10;
 
@@ -51,9 +50,10 @@ export function requestMove(state, dir, nowMs, grid) {
 
 // ---- goal-2 world -------------------------------------------------------
 // world = {
-//   phase: 'play' | 'won' | 'lost',
+//   phase: 'title' | 'play' | 'won' | 'lost',
 //   reason: null | 'spider' | 'timeout',
-//   level, player, spider, dewdrops (remaining cells), collected, total,
+//   level, levelIndex (0-based), totalScore (sum of cleared levels before this one),
+//   player, spider, dewdrops (remaining cells), collected, total,
 //   timeLeft (integer seconds), nextSecondAt,
 //   held (direction names in press order), tap (one buffered press or null)
 // }
@@ -63,11 +63,13 @@ function sameCell(a, b) {
   return a.x === b.x && a.y === b.y;
 }
 
-export function createWorld(level, nowMs) {
+export function createWorld(level, nowMs, levelIndex = 0, totalScore = 0) {
   return {
     phase: 'play',
     reason: null,
     level,
+    levelIndex,
+    totalScore,
     player: { x: level.start.x, y: level.start.y, lockedUntil: 0 },
     spider: {
       x: level.spider.x,
@@ -78,7 +80,7 @@ export function createWorld(level, nowMs) {
     dewdrops: level.dewdrops.map((d) => ({ x: d.x, y: d.y })),
     collected: 0,
     total: level.dewdrops.length,
-    timeLeft: TIME_LIMIT_S,
+    timeLeft: level.timeLimitS,
     nextSecondAt: nowMs + SECOND_MS,
     held: [],
     tap: null,
@@ -183,16 +185,26 @@ export function advance(world, nowMs) {
 }
 
 // ---- goal-3 screens ----------------------------------------------------
-// Title: the level is shown as data only; nothing moves and no timer runs until Enter (O1).
-export function createTitle(level) {
-  return { ...createWorld(level, 0), phase: 'title' };
+// Title: the first level is shown as data only; nothing moves and no timer runs until Enter (O1).
+export function createTitle(levels) {
+  return { ...createWorld(levels[0], 0, 0, 0), phase: 'title' };
 }
 
-// Enter on title or after a loss starts (or restarts) the same level from scratch (9장 수용 23).
-// Enter after a clear returns to the title (9장 수용 24). Enter during play does nothing.
-export function enter(world, nowMs) {
-  if (world.phase === 'title' || world.phase === 'lost') return createWorld(world.level, nowMs);
-  if (world.phase === 'won') return createTitle(world.level);
+// Enter moves between screens. levels = the ordered level list (see src/levels.js).
+// title -> start level 1. lost -> restart the same level, keep totalScore (9장 수용 23, 31).
+// won on a non-last level -> start the next level, add this level's score (수용 27, 29).
+// won on the last level -> title (goal-4 interim; the final screen is goal-5, 수용 24, 32).
+// Enter during play does nothing.
+export function enter(world, nowMs, levels) {
+  if (world.phase === 'title') return createWorld(levels[0], nowMs, 0, 0);
+  if (world.phase === 'lost') return createWorld(levels[world.levelIndex], nowMs, world.levelIndex, world.totalScore);
+  if (world.phase === 'won') {
+    if (world.levelIndex < levels.length - 1) {
+      const nextIndex = world.levelIndex + 1;
+      return createWorld(levels[nextIndex], nowMs, nextIndex, world.totalScore + scoreOf(world));
+    }
+    return createTitle(levels);
+  }
   return world;
 }
 
