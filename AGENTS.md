@@ -5,7 +5,7 @@
 기획서에 없는 것은 만들지 않는다. 기획서가 애매하면 기획서를 먼저 고치고 사람에게 보여준 뒤 코드를 쓴다.
 
 ## 명령어
-- 테스트: node --test test/
+- 테스트: node --test
 - 실행: python3 -m http.server 8000 으로 서버를 띄운 뒤 http://localhost:8000/index.html 을 연다. index.html을 file://로 직접 열면 ES module이 CORS로 막혀 동작하지 않는다
 - 커밋: goal 하나에 하나. 메시지는 goal-N: / replan-N: / design-vN: / fix-N:
 

@@ -34,10 +34,10 @@ python3 -m http.server 8000
 ## 테스트
 
 ```sh
-node --test test/
+node --test
 ```
 
-이 테스트는 Node 20.20.2에서 통과를 확인했습니다. 명세서는 Node 22 이상을 요구하므로, 22 이상에서의 실행은 확인하지 않았습니다.
+이 테스트는 Node 20.20.2와 22.23.5에서 66개 모두 통과하는 것을 확인했습니다. `node --test test/`처럼 폴더를 인자로 주면 Node 21 이상에서는 그 인자를 파일 패턴으로 읽어 실패하므로(`Cannot find module '…/test'`), 인자 없이 `node --test`를 씁니다. 인자 없이 실행하면 `test/` 안의 테스트를 자동으로 찾습니다.
 
 ## 현재 상태와 한계
 
@@ -60,6 +60,6 @@ node --test test/
 - `GAME_DESIGN.md`: 기획서. 2장 이동·규칙, 3장 화면 흐름, 4장 오브젝트, 5장 맵, 6장 팔레트, 9장 수용 기준
 - `.gjc/`: 작업 기록. 계획(ralplan), goal 원장(ultragoal), 검토 증거. 지우지 마세요
 - `src/`: 게임 코드. `logic.js` 순수 규칙, `levels.js` 맵, `render.js` 그리기, `main.js` 입력과 프레임, `sprites.js` 스프라이트와 팔레트, `strings.js` 화면 문구
-- `test/`: `node --test test/`로 실행하는 테스트
+- `test/`: `node --test`로 실행하는 테스트
 - `screenshots/`: 실제 화면 캡처 4장
 - `index.html`: 캔버스와 `src/main.js` 로드
