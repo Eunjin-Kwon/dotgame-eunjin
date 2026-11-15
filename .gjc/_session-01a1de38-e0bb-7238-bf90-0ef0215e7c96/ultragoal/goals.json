@@ -27,14 +27,14 @@
       "id": "G003",
       "title": "goal-5 효과음·최고 점수·최종 화면",
       "objective": "goal-4 뒤에만 시작. 효과음 3개(Web Audio), 최고 점수 localStorage 키 dotgame-eunjin-highscore, 최종 화면과 총점. 사람 브라우저 확인 수용 32~37. 품질 게이트 1회, 40분 제한.",
-      "status": "blocked",
+      "status": "active",
       "createdAt": "2026-11-15T09:03:55.107Z",
-      "updatedAt": "2026-11-15T09:13:29.563Z",
-      "evidence": "goal-5 waits for goal-4, which waits for design-v3 approval (맞다) and commit. Not started."
+      "updatedAt": "2026-11-15T09:59:06.472Z",
+      "evidence": "사용자 승인(R3 goal-5 시작 지시)에 따라 blocked를 active로 되돌려 goal-5를 시작함. goal-4(G002)는 blocked 그대로 두고 complete 표시하지 않음."
     }
   ],
   "createdAt": "2026-11-15T09:03:55.107Z",
-  "updatedAt": "2026-11-15T09:29:00.939Z",
+  "updatedAt": "2026-11-15T09:59:06.472Z",
   "repositoryBinding": {
     "schema": "gjc.repository_binding.v1",
     "worktreeRoot": "/Users/eunjinkwon/dev/dotgame-eunjin",
@@ -43,5 +43,5 @@
     "head": "15ce3e1cdb7be566cc652a6c809eb3ca9f36c00c",
     "branch": "main"
   },
-  "state_revision": 7
+  "state_revision": 8
 }
