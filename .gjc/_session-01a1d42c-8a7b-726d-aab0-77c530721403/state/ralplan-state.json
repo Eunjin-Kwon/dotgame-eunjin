@@ -1,0 +1,63 @@
+{
+  "active": false,
+  "current_phase": "handoff",
+  "skill": "ralplan",
+  "version": 2,
+  "mode": "short",
+  "interactive": false,
+  "task": "GAME_DESIGN.md v1과 AGENTS.md를 읽고 R2 계획을 세워라. goal은 두 개다. goal-2는 목표물·위협·타이머, goal-3은 승패와 화면 전환. 각 goal의 완료 조건은 사람이 브라우저에서 볼 수 있는 문장으로 써라. 사람이 확정한 값과 규칙은 /Users/eunjinkwon/dev/dot_game/R2_decisions.md의 B~G절이다. 이 값을 그대로 기획서 v2(2장 나머지·3장·4장 추가·5장 레벨 1 갱신·9장)로 쓰는 것은 에이전트가 하고, 사람은 읽고 맞다/아니다만 말한다. 착수 게이트는 design-v2 커밋 완료 → goal-2 착수다. 계획 리뷰 반복은 2회 이내. 기획서에 없는 것은 계획에 넣지 마라. 코드는 아직 고치지 마라",
+  "run_id": "01a1d42c-8a7b-726d-aab0-77c530721403",
+  "updated_at": "2026-11-15T06:06:41.771Z",
+  "repository_binding": {
+    "schema": "gjc.repository_binding.v1",
+    "worktreeRoot": "/Users/eunjinkwon/dev/dotgame-eunjin",
+    "commonDir": "/Users/eunjinkwon/dev/dotgame-eunjin/.git",
+    "displayPath": "/Users/eunjinkwon/dev/dotgame-eunjin",
+    "head": "7ca8b79d9eff4769e0cc222f63c9a5089be1cd81",
+    "branch": "main"
+  },
+  "session_id": "01a1d42c-8a7b-726d-aab0-77c530721403",
+  "receipt": {
+    "version": 1,
+    "skill": "ralplan",
+    "owner": "gjc-state-cli",
+    "command": "gjc state ralplan handoff --to ultragoal",
+    "state_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/state/skill-active-state.json",
+    "storage_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/state/ralplan-state.json",
+    "mutated_at": "2026-11-15T06:06:41.771Z",
+    "fresh_until": "2026-11-15T06:36:41.771Z",
+    "status": "fresh",
+    "mutation_id": "ralplan:handoff:ultragoal:2026-11-15T06:06:41.771Z",
+    "forced": false,
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "0cb4a99b13fd0e723fe2c629c53eb0199300bc4c8b085cbaba37d08399defad8",
+      "covered_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/state/ralplan-state.json",
+      "computed_at": "2026-11-15T06:06:41.777Z"
+    }
+  },
+  "critic_id": "1-R2Critic",
+  "critic_resumable": true,
+  "last_review_verdict": "OKAY",
+  "last_review_verdict_lane": "critic",
+  "last_review_verdict_stage_n": 2,
+  "architect_id": "2-R2Architect",
+  "architect_resumable": true,
+  "planner_subagent_id": "0-R2Planner",
+  "planner_resumable": true,
+  "auto_handoff": {
+    "configuredTarget": "off",
+    "effectiveTarget": "off",
+    "degradationReason": null,
+    "source": "default"
+  },
+  "final_admission_phase_transition": {
+    "run_id": "01a1d42c-8a7b-726d-aab0-77c530721403",
+    "final_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/plans/ralplan/01a1d42c-8a7b-726d-aab0-77c530721403/stage-03-final.md",
+    "final_sha256": "b696f57ffd9540e3e220c8c24512df1d7c2103ef47703ca7bc3f55b2d8be6b9a",
+    "auto_handoff_sha256": "baf1bde06b9be0458d9d81bf55e067158d2cf07d30b198d609a3dec519b416b1"
+  },
+  "handoff_to": "ultragoal",
+  "handoff_at": "2026-11-15T06:06:41.771Z",
+  "state_revision": 2
+}

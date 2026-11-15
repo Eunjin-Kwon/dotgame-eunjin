@@ -1,0 +1,69 @@
+{
+  "version": 2,
+  "skill": "ultragoal",
+  "current_phase": "blocked",
+  "active": true,
+  "handoff_from": "ralplan",
+  "handoff_at": "2026-11-15T06:06:41.771Z",
+  "updated_at": "2026-11-15T06:10:58.472Z",
+  "receipt": {
+    "version": 1,
+    "skill": "ultragoal",
+    "owner": "gjc-runtime",
+    "command": "gjc ultragoal (reconcile)",
+    "state_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/state/skill-active-state.json",
+    "storage_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/state/ultragoal-state.json",
+    "mutated_at": "2026-11-15T06:10:58.472Z",
+    "fresh_until": "2026-11-15T06:40:58.472Z",
+    "status": "fresh",
+    "mutation_id": "ultragoal:reconcile:2026-11-15T06:10:58.472Z",
+    "verb": "reconcile",
+    "from_phase": "blocked",
+    "to_phase": "blocked",
+    "forced": true,
+    "content_sha256": {
+      "algorithm": "sha256",
+      "value": "61d0beea4a0787335946558f645f4956f079d9588b760539c8562a67b1446ce5",
+      "covered_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/state/ultragoal-state.json",
+      "computed_at": "2026-11-15T06:10:58.472Z"
+    }
+  },
+  "session_id": "01a1d42c-8a7b-726d-aab0-77c530721403",
+  "status": "blocked",
+  "goals": [
+    {
+      "id": "G001",
+      "title": "goal-2 목표물·위협·타이머",
+      "status": "blocked"
+    },
+    {
+      "id": "G002",
+      "title": "goal-3 승패와 화면 전환",
+      "status": "blocked"
+    }
+  ],
+  "counts": {
+    "pending": 0,
+    "active": 0,
+    "complete": 0,
+    "failed": 0,
+    "blocked": 2,
+    "review_blocked": 0,
+    "superseded": 0
+  },
+  "ledger_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/ultragoal/ledger.jsonl",
+  "brief_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/ultragoal/brief.md",
+  "goals_path": "/Users/eunjinkwon/dev/dotgame-eunjin/.gjc/_session-01a1d42c-8a7b-726d-aab0-77c530721403/ultragoal/goals.json",
+  "gjc_objective": "Complete the durable ultragoal plan in .gjc/ultragoal/goals.json, including later accepted/appended stories, under the original brief constraints; use .gjc/ultragoal/ledger.jsonl as the audit trail.",
+  "nudge_budget": 6,
+  "nudge_count": 0,
+  "nudge_remaining": 6,
+  "nudge_goal_id": "G002",
+  "nudge_target_kind": "story",
+  "latestLedgerEvent": {
+    "event": "critic_verdict",
+    "timestamp": "2026-11-15T06:10:58.462Z",
+    "evidence": "Fresh terminal critic 4-PauseCriticFresh: verdict OKAY, pauseJustified=true, remainingAutonomousStep=null. Only GAME_DESIGN.md modified; G001 and G002 blocked behind the design-v2 commit gate; the user must answer 맞다/아니다 and decide token rotation for a0ea9ca."
+  },
+  "state_revision": 17
+}
